@@ -23,7 +23,7 @@ fi
 # See: https://bugzilla.redhat.com/show_bug.cgi?id=986667
 sudo mkdir -p /var/lock/subsys
 
-$(dirname $0)/install.sh
+$(dirname $0)/install-control.sh
 
 # Switch over to use iptables instead of firewalld
 # This is needed by os-refresh-config

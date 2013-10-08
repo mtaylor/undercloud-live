@@ -23,7 +23,7 @@ fi
 # See: https://bugzilla.redhat.com/show_bug.cgi?id=986667
 sudo mkdir -p /var/lock/subsys
 
-$(dirname $0)/leaf.sh
+$(dirname $0)/install-leaf.sh
 
 os=redhat
 grep libvirtd /etc/group || sudo groupadd libvirtd
