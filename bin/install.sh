@@ -31,7 +31,7 @@ pushd /opt/stack
 git clone https://github.com/agroup/python-dib-elements.git
 git clone https://github.com/agroup/undercloud-live.git
 pushd undercloud-live
-git checkout latest
+git checkout 2-node
 popd
 
 git clone https://github.com/openstack/tripleo-incubator.git
