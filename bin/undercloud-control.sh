@@ -25,27 +25,6 @@ sudo mkdir -p /var/lock/subsys
 
 $(dirname $0)/install.sh
 
-os=redhat
-grep libvirtd /etc/group || sudo groupadd libvirtd
-if ! id | grep libvirtd; then
-   echo "adding $USER to group libvirtd"
-   sudo usermod -a -G libvirtd $USER
-
-   if [ "$os" = "redhat" ]; then
-       libvirtd_file=/etc/libvirt/libvirtd.conf
-       if ! sudo grep "^unix_sock_group" $libvirtd_file > /dev/null; then
-           sudo sed -i 's/^#unix_sock_group.*/unix_sock_group = "libvirtd"/g' $libvirtd_file
-           sudo sed -i 's/^#auth_unix_rw.*/auth_unix_rw = "none"/g' $libvirtd_file
-           sudo sed -i 's/^#unix_sock_rw_perms.*/unix_sock_rw_perms = "0770"/g' $libvirtd_file
-       fi
-    fi
-fi
-
-# need to exec to pick up the new group
-if ! id | grep libvirtd; then
-    exec sudo su -l $USER $0
-fi
-
 # Switch over to use iptables instead of firewalld
 # This is needed by os-refresh-config
 sudo systemctl stop firewalld
