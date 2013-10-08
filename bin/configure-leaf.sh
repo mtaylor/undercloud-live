@@ -2,9 +2,6 @@
 
 set -eux
 
-os=redhat
-
-
 if [ -e /opt/stack/undercloud-live/.configure ]; then
     echo configure.sh has already run, exiting.
     exit
