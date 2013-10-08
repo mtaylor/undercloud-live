@@ -32,6 +32,10 @@ git checkout package
 popd
 
 git clone https://github.com/openstack/tripleo-incubator.git
+pushd tripleo-incubator
+# Oct 7 commit "Don't require no_proxy to be set in devtest_*"
+git reset --hard 24eba1b233a6292cfc6d1fec117db573819619e8
+popd
 
 git clone https://github.com/openstack/diskimage-builder.git
 pushd diskimage-builder
