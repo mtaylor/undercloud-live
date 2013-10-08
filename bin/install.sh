@@ -66,7 +66,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
 dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
                 undercloud-live/elements \
-    -e boot-stack nova-baremetal stackuser heat-cfntools \
+    -e boot-stack nova-baremetal bm-dnsmasq stackuser heat-cfntools \
        undercloud-live-config selinux-permissive \
     -k install \
     -i
