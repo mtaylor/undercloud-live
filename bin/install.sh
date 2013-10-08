@@ -58,10 +58,12 @@ dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
     -e fedora \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
+    -x neutron-openvswitch-agent \
     -i
 dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
     -e source-repositories boot-stack \
     -k extra-data \
+    -x neutron-openvswitch-agent \
     -i
 # rabbitmq-server does not start with selinux enforcing.
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
@@ -71,6 +73,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
        stackuser heat-cfntools \
        undercloud-control-config selinux-permissive \
     -k install \
+    -x neutron-openvswitch-agent \
     -i
 
 popd
@@ -80,31 +83,6 @@ sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
 
 # Overcloud heat template
 sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml
-
-source /opt/stack/undercloud-live/bin/custom-network.sh
-
-# This is the "fake" interface needed for init-neutron-ovs
-PUBLIC_INTERFACE=${PUBLIC_INTERFACE:-ucl0}
-
-# These variables are meant to be overridden if they need to be changed.
-# If you're testing on a vm that is running on a host with the default
-# 192.168.122.1 network already defined, you will want to set environment
-# variables to override these.
-NETWORK=${NETWORK:-192.168.122.1}
-LIBVIRT_IP_ADDRESS=${LIBVIRT_IP_ADDRESS:-192.168.122.1}
-LIBVIRT_NETWORK_RANGE_START=${LIBVIRT_NETWORK_RANGE_START:-192.168.122.2}
-LIBVIRT_NETWORK_RANGE_END=${LIBVIRT_NETWORK_RANGE_END:-192.168.122.254}
-
-sudo sed -i "s/192.168.122.1/$LIBVIRT_IP_ADDRESS/g" /etc/libvirt/qemu/networks/default.xml
-sudo sed -i "s/192.168.122.2/$LIBVIRT_NETWORK_RANGE_START/g" /etc/libvirt/qemu/networks/default.xml
-sudo sed -i "s/192.168.122.254/$LIBVIRT_NETWORK_RANGE_END/g" /etc/libvirt/qemu/networks/default.xml
-
-# Modify config.json as necessary
-sudo sed -i "s/192.168.122.1/$NETWORK/g" /var/lib/heat-cfntools/cfn-init-data
-sudo sed -i "s/\"user\": \"stack\",/\"user\": \"$USER\",/" /var/lib/heat-cfntools/cfn-init-data
-sudo sed -i "s/eth1/$PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
-
-sudo sed -i "s/192.168.122.1/$NETWORK/g" /opt/stack/os-config-applier/templates/var/opt/undercloud-live/masquerade
 
 # Need to get a patch upstream for this, but for now, just fix it locally
 # Run os-config-applier earlier in the os-refresh-config configure.d phase

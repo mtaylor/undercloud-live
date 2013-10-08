@@ -61,9 +61,5 @@
       "tenant_network_type": "vlan"
     },
     "service-password": "unset"
-  },
-  "swift": {
-    "store_user": "unset",
-    "store_key": "unset"
   }
 }

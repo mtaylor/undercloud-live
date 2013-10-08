@@ -19,18 +19,7 @@
   },
   "nova": {
     "host": "127.0.0.1",
-    "db":    "mysql://nova:unset@localhost/nova",
-    "baremetal": {
-      "arch": "x86_64",
-      "db": "mysql://nova:unset@localhost/nova_bm",
-      "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
-      "pxe_deploy_timeout": "2400",
-      "virtual_power": {
-        "user": "stack",
-        "key": "/opt/stack/boot-stack/virtual-power-key",
-        "ssh_host": "192.168.122.1",
-        "type": "virsh"
-      }
+    "db":    "mysql://nova:unset@localhost/nova"
     },
     "metadata-proxy": "false",
     "service-password": "unset"
@@ -38,11 +27,6 @@
   "bootstack": {
     "public_interface_ip": "192.0.2.1/24",
     "masquerade_networks": ["192.0.2.0/24"]
-  },
-  "cinder": {
-    "db": "mysql://cinder:unset@localhost/cinder",
-    "volume_size_mb": "5000",
-    "service-password": "unset"
   },
   "neutron": {
     "host": "127.0.0.1",
@@ -72,9 +56,5 @@
     "admin_tenant_name": "service",
     "admin_user": "heat",
     "admin_password": "unset"
-  },
-  "swift": {
-    "store_user": "unset",
-    "store_key": "unset"
   }
 }

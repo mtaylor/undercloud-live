@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export UNDERCLOUD_CONTROL_IP=192.0.2.1
+export PUBLIC_INTERFACE=eth1

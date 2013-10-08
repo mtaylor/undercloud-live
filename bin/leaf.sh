@@ -74,6 +74,10 @@ dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
 
 popd
 
+# sudo run from nova rootwrap complains about no tty
+sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
+
+
 # the current user needs to always connect to the system's libvirt instance
 # when virsh is run
 if [ ! -e /etc/profile.d/virsh.sh ]; then
@@ -85,5 +89,24 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 EOF
 "
 fi
+
+source /opt/stack/undercloud-live/bin/custom-network.sh
+
+# These variables are meant to be overridden if they need to be changed.
+# If you're testing on a vm that is running on a host with the default
+# 192.168.122.1 network already defined, you will want to set environment
+# variables to override these.
+NETWORK=${NETWORK:-192.168.122.1}
+LIBVIRT_IP_ADDRESS=${LIBVIRT_IP_ADDRESS:-192.168.122.1}
+LIBVIRT_NETWORK_RANGE_START=${LIBVIRT_NETWORK_RANGE_START:-192.168.122.2}
+LIBVIRT_NETWORK_RANGE_END=${LIBVIRT_NETWORK_RANGE_END:-192.168.122.254}
+
+sudo sed -i "s/192.168.122.1/$LIBVIRT_IP_ADDRESS/g" /etc/libvirt/qemu/networks/default.xml
+sudo sed -i "s/192.168.122.2/$LIBVIRT_NETWORK_RANGE_START/g" /etc/libvirt/qemu/networks/default.xml
+sudo sed -i "s/192.168.122.254/$LIBVIRT_NETWORK_RANGE_END/g" /etc/libvirt/qemu/networks/default.xml
+
+# Modify config.json as necessary
+sudo sed -i "s/192.168.122.1/$NETWORK/g" /var/lib/heat-cfntools/cfn-init-data
+sudo sed -i "s/\"user\": \"stack\",/\"user\": \"$USER\",/" /var/lib/heat-cfntools/cfn-init-data
 
 touch /opt/stack/undercloud-live/.leaf

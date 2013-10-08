@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -eux
+
+source /etc/sysconfig/undercloud-live-config
+
+sed -i "s/192.0.2.1/$UNDERCLOUD_CONTROL_IP/g" /var/lib/heat-cfntools/cfn-init-data
+sed -i "s/eth1/$PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
