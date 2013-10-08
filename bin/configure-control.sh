@@ -15,6 +15,16 @@ sudo setenforce 0
 # applied with sudo.
 sudo chown -R $USER.$USER $HOME/.cache
 
+# ssh configuration
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
+    ssh-keygen -b 1024 -N '' -f ~/.ssh/id_rsa
+fi
+
+if [ ! -f ~/.ssh/authorized_keys ]; then
+    touch ~/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
+fi
+
 # this often reports failure, even though the service is up
 sudo service rabbitmq-server restart || true
 
