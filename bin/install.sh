@@ -63,8 +63,8 @@ sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
 sudo sed -i "s/Defaults    secure_path/# Defaults    secure_path/" /etc/sudoers
 
 # need to move this somewhere in heat package or puppet module
-mkdir -p /var/log/heat
-touch /var/log/heat/engine.log
+sudo mkdir -p /var/log/heat
+sudo touch /var/log/heat/engine.log
 
 # This blacklists the script that removes grub2.  Obviously, we don't want to
 # do that in this scenario.
