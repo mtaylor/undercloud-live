@@ -23,7 +23,7 @@ sudo pip install -U setuptools
 sudo pip install pbr
 
 # qemu-img is still needed to convert disks when diskimage-builder is used
-sudo yum install -y python-lxml qemu-img git python-pip openssl-devel python-devel gcc audit python-virtualenv openvswitch python-yaml
+sudo yum install -y python-lxml qemu-img git python-pip openssl-devel python-devel gcc audit python-virtualenv openvswitch python-yaml iptables-services
 
 sudo mkdir -m 777 -p /opt/stack
 pushd /opt/stack
