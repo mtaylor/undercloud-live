@@ -1,4 +1,4 @@
 #!/bin/bash
 set -eux
 
-install -D -m 0755 -o root -g root $(dirname $0)/../undercloud-metdata /usr/local/bin/undercloud-metdata
+install -D -m 0755 -o root -g root $(dirname $0)/../undercloud-metadata /usr/local/bin/undercloud-metadata
