@@ -123,6 +123,8 @@ ln -s '/usr/lib/systemd/system/iptables.service' '/etc/systemd/system/basic.targ
 # systemctl enable ip6tables
 ln -s '/usr/lib/systemd/system/ip6tables.service' '/etc/systemd/system/basic.target.wants/ip6tables.service'
 
+# If mounted causes the iso creation to fail
+umount /run/netns || true
 
 %end
 ##############################################################################
