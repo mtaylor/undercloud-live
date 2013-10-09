@@ -30,9 +30,6 @@ python-pip
 
 cd $INSTALL_ROOT/root
 git clone https://github.com/agroup/undercloud-live
-pushd undercloud-live
-git checkout package
-popd
 
 mkdir -p $INSTALL_ROOT/root/.cache/image-create
 
