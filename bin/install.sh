@@ -73,7 +73,7 @@ sudo touch /var/log/heat/engine.log
 # This blacklists the script that removes grub2.  Obviously, we don't want to
 # do that in this scenario.
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
-    -e fedora \
+    -e fedora openstack-m-repo \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
     -i
@@ -137,4 +137,4 @@ sudo sed -i "s/192.168.122.1/$NETWORK/g" /opt/stack/os-config-applier/templates/
 sudo mv /opt/stack/os-config-refresh/configure.d/50-os-config-applier \
         /opt/stack/os-config-refresh/configure.d/40-os-config-applier
 
-touch /opt/stack/undercloud-live/.install 
+touch /opt/stack/undercloud-live/.install
