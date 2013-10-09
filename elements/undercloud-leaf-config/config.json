@@ -5,6 +5,7 @@
   "admin-password": "unset",
   "db-password": "unset",
   "keystone": {
+    "host": "192.0.2.1",
     "db": "mysql://keystone:unset@localhost/keystone"
   },
   "rabbit": {
