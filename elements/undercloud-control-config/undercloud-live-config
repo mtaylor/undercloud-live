@@ -1,4 +1,0 @@
-#!/bin/bash
-
-export UNDERCLOUD_CONTROL_IP=192.0.2.1
-export LEAF_PUBLIC_INTERFACE=eth1

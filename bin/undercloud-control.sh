@@ -36,7 +36,9 @@ sudo systemctl start iptables
 sudo systemctl start ip6tables
 
 # Perform substitution of static configuration
-source /etc/sysconfig/undercloud-live-config
+source /etc/sysconfig/undercloud-live-config || true
+UNDERCLOUD_CONTROL_IP=${UNDERCLOUD_CONTROL_IP:-192.0.2.1}
+LEAF_PUBLIC_INTERFACE=${LEAF_PUBLIC_INTERFACE:-eth1}
 
 sudo sed -i "s/192.0.2.1/$UNDERCLOUD_CONTROL_IP/g" /var/lib/heat-cfntools/cfn-init-data
 sudo sed -i "s/eth1/$LEAF_PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
