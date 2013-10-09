@@ -35,6 +35,12 @@ sudo systemctl enable ip6tables
 sudo systemctl start iptables
 sudo systemctl start ip6tables
 
+# Perform substitution of static configuration
+source /etc/sysconfig/undercloud-live-config
+
+sed -i "s/192.0.2.1/$UNDERCLOUD_CONTROL_IP/g" /var/lib/heat-cfntools/cfn-init-data
+sed -i "s/eth1/$LEAF_PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
+
 # starts all services and run os-refresh-config
 sudo systemctl daemon-reload
 UCL_USER=$USER sudo -E os-collect-config --one-time --force
