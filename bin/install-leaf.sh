@@ -107,6 +107,7 @@ sudo sed -i "s/192.168.122.254/$LIBVIRT_NETWORK_RANGE_END/g" /etc/libvirt/qemu/n
 
 # Modify config.json as necessary
 sudo sed -i "s/192.168.122.1/$NETWORK/g" /var/lib/heat-cfntools/cfn-init-data
+USER=${USER:-stack}
 sudo sed -i "s/\"user\": \"stack\",/\"user\": \"$USER\",/" /var/lib/heat-cfntools/cfn-init-data
 
 # Need to get a patch upstream for this, but for now, just fix it locally
