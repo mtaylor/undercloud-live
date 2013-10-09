@@ -24,6 +24,8 @@ sleep 20
 # Make sure we have the latest $PATH set.
 source /etc/profile.d/tripleo-incubator-scripts.sh
 
+sudo mkdir -p /root/.ssh
+sudo chmod 0700 /root/.ssh
 sudo bash -c "cat /home/$USER/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
 
 init-keystone -p unset unset \
@@ -38,16 +40,5 @@ keystone role-create --name heat_stack_user
 
 # Adds default ssh key to nova
 /opt/stack/tripleo-incubator/scripts/user-config
-
-/opt/stack/tripleo-incubator/scripts/setup-neutron 192.0.2.5 192.0.2.24 192.0.2.0/24 $UNDERCLOUD_CONTROL_IP ctlplane
-
-cat /opt/stack/boot-stack/virtual-power-key.pub >> ~/.ssh/authorized_keys
-
-# Baremetal setup
-# Doing this as root b/c when this script is called from systemd, the access
-# to the libvirtd socket is restricted.
-sudo -i /opt/stack/tripleo-incubator/scripts/create-nodes 1 2048 20 amd64 2
-
-cat /opt/stack/boot-stack/virtual-power-key.pub >> /home/$USER/.ssh/authorized_keys
 
 sudo touch /opt/stack/undercloud-live/.setup

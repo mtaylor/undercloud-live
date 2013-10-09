@@ -25,25 +25,6 @@ source /etc/profile.d/tripleo-incubator-scripts.sh
 
 export UNDERCLOUD_IP=192.0.2.1
 
-sudo bash -c "cat /home/$USER/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
-
-init-keystone -p unset unset \
-    $UNDERCLOUD_IP admin@example.com root@$UNDERCLOUD_IP
-
-setup-endpoints $UNDERCLOUD_IP --glance-password unset \
-    --heat-password unset \
-    --neutron-password unset \
-    --nova-password unset
-
-keystone role-create --name heat_stack_user
-
-# Adds default ssh key to nova
-/opt/stack/tripleo-incubator/scripts/user-config
-
-/opt/stack/tripleo-incubator/scripts/setup-neutron 192.0.2.5 192.0.2.24 192.0.2.0/24 $UNDERCLOUD_IP ctlplane
-
-cat /opt/stack/boot-stack/virtual-power-key.pub >> ~/.ssh/authorized_keys
-
 # Baremetal setup
 # Doing this as root b/c when this script is called from systemd, the access
 # to the libvirtd socket is restricted.
