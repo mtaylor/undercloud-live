@@ -14,11 +14,11 @@ sudo sed -i "s/bridge name='brbm'/bridge name='br-ctlplane'/" /opt/stack/tripleo
 
 # puppet will start dnsmasq service, need to stop it to allow
 # the default network to come up
-service nova-bm-dnsmasq stop
+sudo service nova-bm-dnsmasq stop || true
 
 # change interface in local heat metadata if eth0 is present
 if ifconfig | grep eth0; then
-    sed -i "s/\"public_interface\": \"eth1\"/\"public_interface\": \"eth0\"/g" /var/lib/heat-cfntools/cfn-init-data
+    sudo sed -i "s/\"public_interface\": \"eth1\"/\"public_interface\": \"eth0\"/g" /var/lib/heat-cfntools/cfn-init-data
 fi
 
 /opt/stack/tripleo-incubator/scripts/setup-network
