@@ -30,8 +30,11 @@ git clone https://github.com/agroup/undercloud-live.git
 
 git clone https://github.com/openstack/tripleo-incubator.git
 pushd tripleo-incubator
-# Oct 7 commit "Don't require no_proxy to be set in devtest_*"
-git reset --hard 24eba1b233a6292cfc6d1fec117db573819619e8
+# Oct 8 commit 'Switch from ">/dev/stderr" to ">&2"'
+# For the next ones let's use cherry-pick.
+# NOTE(lucasagomes): cherry-pick will require the git
+# global config to be set
+git reset --hard 8031466c1688e686d121de9a59fd4b59096b9115
 popd
 
 git clone https://github.com/openstack/diskimage-builder.git
