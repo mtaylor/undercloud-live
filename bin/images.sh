@@ -26,12 +26,13 @@ if [ ! -f $BM_KERNEL ]; then
         fedora deploy pip-cache
 fi
 
+# selinux-permissive should be removed once we switch to Qpid
 if [ ! -f $CONTROL_IMG ]; then
     /opt/stack/diskimage-builder/bin/disk-image-create \
         -a amd64 \
         --offline \
         -o $IMAGES_DIR/overcloud-control \
-        fedora boot-stack \
+        fedora selinux-permissive boot-stack \
         heat-cfntools neutron-network-node stackuser pip-cache
 fi
 
