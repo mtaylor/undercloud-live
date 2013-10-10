@@ -68,7 +68,8 @@ dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
                 undercloud-live/elements \
     -e nova-baremetal bm-dnsmasq neutron-network-node \
        stackuser heat-cfntools \
-       undercloud-leaf-config selinux-permissive \
+       undercloud-leaf-config undercloud-environment \
+       selinux-permissive \
     -k install \
     -i
 

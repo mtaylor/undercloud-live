@@ -71,7 +71,8 @@ dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
                 undercloud-live/elements \
     -e boot-stack \
        stackuser heat-cfntools \
-       undercloud-control-config selinux-permissive \
+       undercloud-control-config undercloud-environment \
+       selinux-permissive \
     -k install \
     -x neutron-openvswitch-agent \
     -i
