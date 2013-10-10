@@ -4,8 +4,8 @@ set -eux
 
 source $HOME/undercloudrc
 
-/opt/stack/tripleo-incubator/scripts/setup-passwords -o
-source tripleo-passwords
+/opt/stack/tripleo-incubator/scripts/setup-overcloud-passwords -o
+source tripleo-overcloud-passwords
 
 export OVERCLOUD_LIBVIRT_TYPE=qemu
 
