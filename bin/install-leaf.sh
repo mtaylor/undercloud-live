@@ -31,6 +31,7 @@ git clone https://github.com/agroup/python-dib-elements.git
 git clone https://github.com/agroup/undercloud-live.git
 pushd undercloud-live
 git checkout 2-node
+git pull
 popd
 
 git clone https://github.com/openstack/tripleo-incubator.git
