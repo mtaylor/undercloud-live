@@ -21,4 +21,4 @@ echo
 echo \$UNDERCLOUD_MACS is "$UNDERCLOUD_MACS"
 echo 
 echo Add or modify the following line in /etc/sysconfig/undercloud-live-config on the control node:
-echo export \$UNDERCLOUD_MACS="$UNDERCLOUD_MACS"
+echo export UNDERCLOUD_MACS=\"$UNDERCLOUD_MACS\"
