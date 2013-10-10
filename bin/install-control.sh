@@ -13,6 +13,8 @@ sudo yum install -y python-pip
 # busybox is a requirement of ramdisk-image-create from diskimage-builder
 sudo yum install -y busybox
 
+sudo yum install -y ccache
+
 # Migrate over to the latest setuptools
 sudo pip install -U distribute
 sudo pip install -U setuptools
