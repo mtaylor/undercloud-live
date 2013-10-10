@@ -57,6 +57,10 @@ sudo systemctl enable ip6tables
 sudo systemctl start iptables
 sudo systemctl start ip6tables
 
+# Make sure iscsid is started and enabled
+sudo systemctl enable iscsid
+sudo systemctl start iscsid
+
 # starts all services and run os-refresh-config
 sudo systemctl daemon-reload
 UCL_USER=$USER sudo -E os-collect-config --one-time
