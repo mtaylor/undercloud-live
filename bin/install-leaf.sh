@@ -105,11 +105,6 @@ sudo sed -i "s/192.168.122.1/$LIBVIRT_IP_ADDRESS/g" /etc/libvirt/qemu/networks/d
 sudo sed -i "s/192.168.122.2/$LIBVIRT_NETWORK_RANGE_START/g" /etc/libvirt/qemu/networks/default.xml
 sudo sed -i "s/192.168.122.254/$LIBVIRT_NETWORK_RANGE_END/g" /etc/libvirt/qemu/networks/default.xml
 
-# Modify config.json as necessary
-sudo sed -i "s/192.168.122.1/$NETWORK/g" /var/lib/heat-cfntools/cfn-init-data
-USER=${USER:-stack}
-sudo sed -i "s/\"user\": \"stack\",/\"user\": \"$USER\",/" /var/lib/heat-cfntools/cfn-init-data
-
 # Need to get a patch upstream for this, but for now, just fix it locally
 # Run os-config-applier earlier in the os-refresh-config configure.d phase
 sudo mv /opt/stack/os-config-refresh/configure.d/50-os-config-applier \

@@ -11,3 +11,6 @@ export NODE_DISK=20
 export NODE_ARCH=amd64
 
 export UNDERCLOUD_MACS=""
+
+export LIBVIRT_HOST=
+export LIBVIRT_USER=
