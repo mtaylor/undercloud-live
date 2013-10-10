@@ -12,7 +12,7 @@ CONTROL_IMG=$IMAGES_DIR/overcloud-control.qcow2
 COMPUTE_IMG=$IMAGES_DIR/overcloud-compute.qcow2
 BM_KERNEL=$IMAGES_DIR/deploy-ramdisk.kernel
 BM_INITRAMFS=$IMAGES_DIR/deploy-ramdisk.initramfs
-ELEMENTS_PATH=/opt/stack/tripleo-image-elements/elements
+ELEMENTS_PATH=/opt/stack/tripleo-puppet-elements/elements
 
 export ELEMENTS_PATH
 
