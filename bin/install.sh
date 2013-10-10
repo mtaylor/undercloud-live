@@ -22,7 +22,7 @@ sudo pip install -U setuptools
 # pip thinks it's installed from then on out, even though it is not.
 sudo pip install pbr
 
-sudo yum install -y python-lxml libvirt-python libvirt qemu-img qemu-kvm git python-pip openssl-devel python-devel gcc audit python-virtualenv openvswitch python-yaml
+sudo yum install -y python-lxml libvirt-python libvirt qemu-img qemu-kvm git python-pip openssl-devel python-devel gcc audit python-virtualenv openvswitch python-yaml which
 
 sudo mkdir -m 777 -p /opt/stack
 pushd /opt/stack
