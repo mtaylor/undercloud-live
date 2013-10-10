@@ -5,7 +5,7 @@
 
 set -eux
 
-source $HOME/undercloudrc
+source /etc/sysconfig/undercloudrc
 
 IMAGES_DIR=/opt/stack/images
 CONTROL_IMG=$IMAGES_DIR/overcloud-control.qcow2

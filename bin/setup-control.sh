@@ -11,8 +11,8 @@ if [ -f /opt/stack/undercloud-live/.setup ]; then
     exit
 fi
 
-sudo cp /root/stackrc $HOME/undercloudrc
-source $HOME/undercloudrc
+sudo cp /root/stackrc /etc/sysconfig/undercloudrc
+source /etc/sysconfig/undercloudrc
 
 # Ensure keystone is up before continuing on.
 # Waits for up to 2 minutes.
