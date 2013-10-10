@@ -10,4 +10,4 @@ LIBVIRT_USER=${LIBVIRT_USER:-stack}
 sudo sed -i "s/192.0.2.1/$UNDERCLOUD_CONTROL_IP/g" /var/lib/heat-cfntools/cfn-init-data
 sudo sed -i "s/eth1/$LEAF_PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
 sudo sed -i "s/192.168.122.1/$LIBVIRT_HOST/g" /var/lib/heat-cfntools/cfn-init-data
-sudo sed -i "s/stack/$LIBVIRT_USER/g" /var/lib/heat-cfntools/cfn-init-data
+sudo sed -i "s/\"stack\"/\"$LIBVIRT_USER\"/g" /var/lib/heat-cfntools/cfn-init-data
