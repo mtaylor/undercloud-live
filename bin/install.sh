@@ -13,6 +13,9 @@ sudo yum install -y python-pip
 # busybox is a requirement of ramdisk-image-create from diskimage-builder
 sudo yum install -y busybox
 
+# which is not installed in minimal Fedora images
+sudo yum install -y which
+
 # The packaged version of pbr that gets installed is
 # python-pbr-0.5.19-2.fc19.noarch
 # However, the unpackaged os-*-config expect pbr>=0.5.21, so we need to still
