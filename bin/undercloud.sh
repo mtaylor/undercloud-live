@@ -48,8 +48,9 @@ fi
 
 # Switch over to use iptables instead of firewalld
 # This is needed by os-refresh-config
-sudo systemctl stop firewalld
-sudo systemctl mask firewalld
+# It's okay for this to fail - firewalld may not be installed
+sudo systemctl stop firewalld || echo "Couldn't stop firewalld"
+sudo systemctl mask firewalld || echo "Couldn't mask firewalld"
 sudo touch /etc/sysconfig/iptables
 sudo systemctl enable iptables
 sudo systemctl enable ip6tables
