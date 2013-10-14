@@ -5,9 +5,10 @@ set -eux
 source /opt/stack/undercloud-live/bin/common.sh
 source /etc/sysconfig/undercloud-live-config
 
-# This script needs to be rerun if you reboot the undercloud.
+source /etc/sysconfig/undercloudrc
 
-# wait_for 12 10 ls /var/run/libvirt/libvirt-sock
+# Find the admin tenant.
+TENANT_ID=$(keystone tenant-list | grep ' admin ' | awk '{print $2}')
 
-# sudo sed -i "s/bridge name='brbm'/bridge name='br-ctlplane'/" /opt/stack/tripleo-incubator/templates/brbm.xml
-# /opt/stack/tripleo-incubator/scripts/setup-network
+neutron net-create --tenant-id $TENANT_ID ctlplane --shared --provider:network_type flat --provider:physical_network ctlplane
+neutron subnet-create --tenant-id $TENANT_ID ctlplane 192.0.2.0/24
