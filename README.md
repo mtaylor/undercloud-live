@@ -217,6 +217,10 @@ Perform the following steps on the host to set it up:
    undercloud-metadata
    os-collect-config --one-time
 
+1. On the control node, setup the baremetal nodes.
+
+    baremetal-2node.sh
+
 
 ### Live Image Additional Info
 
