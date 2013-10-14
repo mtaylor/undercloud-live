@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# iptables should be used, not firewalld
+
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask firewalld
+
+touch /etc/sysconfig/iptables
+systemctl enable iptables
+systemctl start iptables
+systemctl enable ip6tables
+systemctl start ip6tables
