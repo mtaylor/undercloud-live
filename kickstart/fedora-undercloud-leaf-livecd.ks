@@ -31,7 +31,7 @@ python-pip
 cd $INSTALL_ROOT/root
 git clone https://github.com/agroup/undercloud-live
 cd undercloud-live
-git checkout 2-node
+git checkout latest
 
 %end
 ##############################################################################
