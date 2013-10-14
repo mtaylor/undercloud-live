@@ -33,7 +33,6 @@ git clone https://github.com/agroup/undercloud-live
 cd undercloud-live
 git checkout 2-node
 
-
 %end
 ##############################################################################
 
@@ -69,10 +68,6 @@ chown -R stack.stack /home/stack/.cache
 sed -i "s/# %wheel/%wheel/" /etc/sudoers
 
 # tmpfs mount dirs for:
-# yum cache
-# ccache
-# /opt/stack/images
-# /var/lib/glance/images
 # /var/lib/nova/instances
 export NOVA_ID=`id -u nova`
 export NOVA_GROUP_ID=`id -g nova`

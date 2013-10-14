@@ -35,13 +35,6 @@ git checkout 2-node
 
 mkdir -p $INSTALL_ROOT/root/.cache/image-create
 
-# pip is slow, just copy this into the chroot for now
-# cp -r /home/jslagle/.cache/image-create/pip $INSTALL_ROOT/root/.cache/image-create/
-# chown -R root.root $INSTALL_ROOT/root/.cache/image-create
-# git clone is slow, just copy into chroot for now
-# cp -r /home/jslagle/.cache/image-create/repository-sources $INSTALL_ROOT/root/.cache/image-create/
-# chown -R root.root $INSTALL_ROOT/root/.cache/image-create
-
 # Add cached Fedora Cloud images.
 # TODO: need to come from more permanent location
 cd $INSTALL_ROOT/root/.cache/image-create
