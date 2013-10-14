@@ -5,7 +5,7 @@
 
 set -eux
 
-source $HOME/undercloudrc
+source /etc/sysconfig/undercloudrc
 
 IMAGES_DIR=/opt/stack/images
 CONTROL_IMG=$IMAGES_DIR/overcloud-control.qcow2
@@ -44,8 +44,6 @@ if [ ! -f $COMPUTE_IMG ]; then
         fedora nova-compute nova-kvm \
         neutron-openvswitch-agent heat-cfntools stackuser pip-cache
 fi
-
-/opt/stack/undercloud-live/bin/baremetal.sh
 
 /opt/stack/tripleo-incubator/scripts/load-image $COMPUTE_IMG
 /opt/stack/tripleo-incubator/scripts/load-image $CONTROL_IMG

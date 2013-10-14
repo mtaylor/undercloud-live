@@ -11,6 +11,7 @@ if [ -f /opt/stack/undercloud-live/.setup ]; then
 fi
 
 sudo cp /root/stackrc $HOME/undercloudrc
+sudo cp /root/stackrc /etc/sysconfig/undercloudrc
 source $HOME/undercloudrc
 
 # Find the keystone unit

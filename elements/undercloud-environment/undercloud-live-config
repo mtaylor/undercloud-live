@@ -1,0 +1,16 @@
+#!/bin/bash
+
+export UNDERCLOUD_CONTROL_IP=
+export UNDERCLOUD_LEAF_IP=
+export CONTROL_PUBLIC_INTERFACE=
+export LEAF_PUBLIC_INTERFACE=
+
+export NODE_CPU=1 
+export NODE_MEM=2048 
+export NODE_DISK=20 
+export NODE_ARCH=amd64
+
+export UNDERCLOUD_MACS=""
+
+export LIBVIRT_HOST=
+export LIBVIRT_USER=

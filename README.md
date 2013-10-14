@@ -69,17 +69,30 @@ undercloud, just copy them into /opt/stack/images.
   See: https://bugzilla.redhat.com/show_bug.cgi?id=998682
   Note: we will be switching to use qpid soon
 
-## kickstart/fedora-undercloud-livecd.ks
-kickstart file that can be used to build an undercloud Live CD.
+## kickstarts
+The kickstart files can be used with livecd-tools to build live images.
 
-1. install fedora-kickstarts and livecd-tools if needed
-1. livecd-creator --debug --verbose  --fslabel=Fedora-Undercloud-LiveCD --cache=/var/cache/yum/x86_64/19 --releasever=19 --config=/path/to/undercloud-live/kickstart/fedora-undercloud-livecd.ks
+1. install spin-kickstarts and livecd-tools if needed
 
-This will produce a Fedora-Undercloud-LiveCD.iso file in the current directory.
-To test it simply run:
+They produce iso's in the current directory from which the below commands are
+run.  To test the isos you can do something like:
 
     qemu-kvm -m 2048 Fedora-Undercloud-LiveCD.iso
-(you can run it with less ram, but it will be quite a bit slower)
+
+### fedora-undercloud-livecd.ks
+kickstart file that can be used to build an Undercloud Live CD.
+
+1. livecd-creator --debug --verbose  --fslabel=Fedora-Undercloud-LiveCD --cache=/var/cache/yum/x86_64/19 --releasever=19 --config=/path/to/undercloud-live/kickstart/fedora-undercloud-livecd.ks -t /tmp/
+
+### fedora-undercloud-control-livecd.ks
+kickstart file that can be used to build an Undercloud Control Live CD.
+
+1. livecd-creator --debug --verbose --title "Fedora Undercloud Control" --fslabel=Fedora-Undercloud-Control-LiveCD --cache=/var/cache/yum/x86_64/19 --releasever=19 --config /path/to/undercloud-live/kickstart/fedora-undercloud-control-livecd.ks -t /tmp/
+
+### fedora-undercloud-leaf-livecd.ks
+kickstart file that can be used to build an Undercloud Leaf Live CD.
+
+1. livecd-creator --debug --verbose --title "Fedora Undercloud Leaf" --fslabel=Fedora-Undercloud-Leaf-LiveCD --cache=/var/cache/yum/x86_64/19 --releasever=19 --config /path/to/undercloud-live/kickstart/fedora-undercloud-leaf-livecd.ks -t /tmp/
 
 ## Live CD
 
@@ -105,7 +118,7 @@ later.
  * if you don't want to use Nested KVM, make sure you switch all your vm's to use just
    qemu virtualization in their libvirt xml.
 
-### Running/Installing
+### Running/Installing (All-in-One)
 To use the live cd, follow the steps below.
 
 1. Boot the live cd.
@@ -118,24 +131,9 @@ To use the live cd, follow the steps below.
 
         su -
         su - stack
-1. The libvirtd service on the undercloud uses the default network of
-   192.168.122.0/24.  If this is already in use in your enviornment, you need
-   to change it.  Here's an example of doing that if you wanted to switch the
-   subnet to 123 instead of 122:
-
-        # run these commands as root
-        sed -i "s/122/123/g" /etc/libvirt/qemu/networks/default.xml
-        systemctl restart libvirtd
-        virsh net-destroy default
-        virsh net-start default
-        # Update nova compute configuration
-        sed -i "s/192.168.122.1/192.168.123.1/g" /etc/nova/nova.conf
-        systemctl nova-compute restart
-        # Update embedded heat meatdata (it gets applied on every boot)
-        sed -i "s/192.168.122.1/192.168.123.1/g" /var/lib/heat-cfntools/cfn-init-data
 1. Source the undercloud configuration
 
-        source undercloudrc
+        source /etc/sysconfig/undercloudrc
 
 From here, you can use all the normal openstack clients to interact with the
 running undercloud services.
@@ -154,8 +152,77 @@ it's services:
     export OVERCLOUD_IP=$(nova list | grep notcompute.*ctlplane | sed  -e "s/.*=\\([0-9.]*\\).*/\1/")
     source /opt/stack/tripleo-incubator/overcloudrc
 
+### Running/Installing (2-node)
+The 2-node (control and leaf) version of undercloud-live uses the host's
+libvirt instance for the baremetal nodes.  This makes it easier to use vm's for
+everythng, but, there is some host setup that needs to be done.
 
-A couple of points to remember as the Live CD is used:
+First, boot 2 vm's for the control node and leaf node.
+
+Perform the following steps on the host to set it up:
+
+1. Clone the repositories for tripleo-incubator and undercloud-live.
+
+    git clone https://github.com/openstack/tripleo-incubator
+    git clone https://github.com/agroup/undercloud-live
+
+1. Define $TRIPLEO_ROOT.
+
+    export TRIPLEO_ROOT=/full/path/to/tripleo-incubator/scripts
+
+1. Define environment variables for the baremetal nodes.
+
+    export NODE_CPU=1
+    export NODE_MEM=2048
+    export NODE_DISK=20 
+    export NODE_ARCH=amd64
+
+1. Setup the brbm openvswitch bridge and libvirt network.
+
+    setup-network
+
+1. Create the baremetal nodes.  Specify the path to your undercloud-live checkout as needed.
+
+    undercloud-live/bin/nodes.sh
+
+1. Create a vm for the control node, and one for the leaf node.  Before
+   starting the vm for the leaf node, edit it's libvirt xml and add the
+   following as an additional network interface.
+
+    <interface type='network'>
+      <source network='brbm'/>
+      <model type='e1000'/>
+    </interface>
+
+1. Start the vm's for the control and leaf nodes.  Install the images to disk.
+   There is a kickstart file included on the images to make this easier.  Make
+   any needed changes to the kickstart file and then run:
+
+   liveinst --kickstart /opt/stack/undercloud-live/kickstart/anaconda-ks.cfg
+
+1. Once the install has finished, reboot the control and leaf vm's.
+
+1. On the control node, edit /etc/sysconfig/undercloud-live-config and set all
+   the defined environment variables in the file.  Rememver to set
+   $UNDERCLOUD_MACS based on the output from when nodes.sh was run earlier.  Then run undercloud-metadata
+   on the control node, and refresh the metadata.
+
+   undercloud-metadata
+   os-collect-config --one-time
+
+1. On the leaf node, edit /etc/sysconfig/undercloud-live-config and set all
+   the defined environment variables in the file.  Then run undercloud-metadata
+   on the leaf node, and refresh the metadata.
+
+   undercloud-metadata
+   os-collect-config --one-time
+
+1. On the control node, setup the baremetal nodes.
+
+    baremetal-2node.sh
+
+
+### Live Image Additional Info
 
 1. You can use the Install to Hard Drive shortcut on the desktop to install the
    live cd to disk.  When you do this, any changes that you had made, will be
