@@ -32,7 +32,7 @@ pushd /opt/stack
 git clone https://github.com/agroup/python-dib-elements.git
 git clone https://github.com/agroup/undercloud-live.git
 pushd undercloud-live
-git checkout latest
+git checkout slagle/package
 git pull
 popd
 
