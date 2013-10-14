@@ -1,0 +1,9 @@
+#!/bin/bash
+set -eu
+
+source /etc/sysconfig/undercloud-live-config || true
+UNDERCLOUD_LEAF_IP=${UNDERCLOUD_LEAF_IP:-192.0.2.2}
+CONTROL_PUBLIC_INTERFACE=${CONTROL_PUBLIC_INTERFACE:-eth0}
+
+sudo ip route del 192.0.2.0/24 dev $CONTROL_PUBLIC_INTERFACE || true
+sudo ip route add 192.0.2.0/24 dev $CONTROL_PUBLIC_INTERFACE via $UNDERCLOUD_LEAF_IP

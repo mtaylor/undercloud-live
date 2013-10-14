@@ -30,21 +30,16 @@ python-pip
 
 cd $INSTALL_ROOT/root
 git clone https://github.com/agroup/undercloud-live
+cd undercloud-live
+git checkout 2-node
 
 mkdir -p $INSTALL_ROOT/root/.cache/image-create
-
-# pip is slow, just copy this into the chroot for now
-# cp -r /home/jslagle/.cache/image-create/pip $INSTALL_ROOT/root/.cache/image-create/
-# chown -R root.root $INSTALL_ROOT/root/.cache/image-create
-# git clone is slow, just copy into chroot for now
-# cp -r /home/jslagle/.cache/image-create/repository-sources $INSTALL_ROOT/root/.cache/image-create/
-# chown -R root.root $INSTALL_ROOT/root/.cache/image-create
 
 # Add cached Fedora Cloud images.
 # TODO: need to come from more permanent location
 cd $INSTALL_ROOT/root/.cache/image-create
-curl -O http://file.rdu.redhat.com/~jslagle/latest-Cloud-x86_64-latest.tgz
-curl -o fedora-latest.x86_64.qcow2 http://file.rdu.redhat.com/~jslagle/Fedora-x86_64-19-20130627-sda.qcow2
+# curl -O http://file.rdu.redhat.com/~jslagle/latest-Cloud-x86_64-latest.tgz
+# curl -o fedora-latest.x86_64.qcow2 http://file.rdu.redhat.com/~jslagle/Fedora-x86_64-19-20130627-sda.qcow2
 
 %end
 ##############################################################################
@@ -67,7 +62,7 @@ mkdir -p /var/cache/pip
 export PIP_DOWNLOAD_CACHE=/var/cache/pip
 
 # Install the undercloud
-/root/undercloud-live/bin/install.sh
+/root/undercloud-live/bin/install-control.sh
 
 # move diskimage-builder cache into stack user's home dir so it can be reused
 # during image builds.

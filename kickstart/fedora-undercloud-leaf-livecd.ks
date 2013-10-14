@@ -30,21 +30,8 @@ python-pip
 
 cd $INSTALL_ROOT/root
 git clone https://github.com/agroup/undercloud-live
-
-mkdir -p $INSTALL_ROOT/root/.cache/image-create
-
-# pip is slow, just copy this into the chroot for now
-# cp -r /home/jslagle/.cache/image-create/pip $INSTALL_ROOT/root/.cache/image-create/
-# chown -R root.root $INSTALL_ROOT/root/.cache/image-create
-# git clone is slow, just copy into chroot for now
-# cp -r /home/jslagle/.cache/image-create/repository-sources $INSTALL_ROOT/root/.cache/image-create/
-# chown -R root.root $INSTALL_ROOT/root/.cache/image-create
-
-# Add cached Fedora Cloud images.
-# TODO: need to come from more permanent location
-cd $INSTALL_ROOT/root/.cache/image-create
-curl -O http://file.rdu.redhat.com/~jslagle/latest-Cloud-x86_64-latest.tgz
-curl -o fedora-latest.x86_64.qcow2 http://file.rdu.redhat.com/~jslagle/Fedora-x86_64-19-20130627-sda.qcow2
+cd undercloud-live
+git checkout 2-node
 
 %end
 ##############################################################################
@@ -67,7 +54,7 @@ mkdir -p /var/cache/pip
 export PIP_DOWNLOAD_CACHE=/var/cache/pip
 
 # Install the undercloud
-/root/undercloud-live/bin/install.sh
+/root/undercloud-live/bin/install-leaf.sh
 
 # move diskimage-builder cache into stack user's home dir so it can be reused
 # during image builds.
@@ -81,25 +68,10 @@ chown -R stack.stack /home/stack/.cache
 sed -i "s/# %wheel/%wheel/" /etc/sudoers
 
 # tmpfs mount dirs for:
-# yum cache
-# ccache
-# /opt/stack/images
-# /var/lib/glance/images
 # /var/lib/nova/instances
-mkdir -p /opt/stack/images
-chgrp stack /opt/stack/images
-chmod 775 /opt/stack/images
-export STACK_ID=`id -u stack`
-export STACK_GROUP_ID=`id -g stack`
-export GLANCE_ID=`id -u glance`
-export GLANCE_GROUP_ID=`id -g glance`
 export NOVA_ID=`id -u nova`
 export NOVA_GROUP_ID=`id -g nova`
 cat << EOF >> /etc/fstab
-tmpfs /home/stack/.cache/image-create/ccache tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
-tmpfs /home/stack/.cache/image-create/yum tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
-tmpfs /opt/stack/images tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
-tmpfs /var/lib/glance/images tmpfs rw,uid=$GLANCE_ID,gid=$GLANCE_GROUP_ID 0 0
 tmpfs /var/lib/nova/instances tmpfs rw,uid=$NOVA_ID,gid=$NOVA_GROUP_ID 0 0
 EOF
 

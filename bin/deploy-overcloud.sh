@@ -2,7 +2,7 @@
 
 set -eux
 
-source $HOME/undercloudrc
+source /etc/sysconfig/undercloudrc
 
 /opt/stack/tripleo-incubator/scripts/setup-overcloud-passwords -o
 source tripleo-overcloud-passwords
