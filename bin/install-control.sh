@@ -119,9 +119,6 @@ sudo chown heat /var/log/heat/engine.log
 # Overcloud heat template
 sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml
 
-# Run undercloud-metadata for the first time so cfn-init-data gets created.
-undercloud-metadata
-
 # Need to get a patch upstream for this, but for now, just fix it locally
 # Run os-config-applier earlier in the os-refresh-config configure.d phase
 sudo mv /opt/stack/os-config-refresh/configure.d/50-os-config-applier \

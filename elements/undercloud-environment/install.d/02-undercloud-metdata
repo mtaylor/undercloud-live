@@ -33,3 +33,6 @@ export UNDERCLOUD_MACS="$UNDERCLOUD_MACS"
 export LIBVIRT_HOST=$LIBVIRT_HOST
 export LIBVIRT_USER=$LIBVIRT_USER
 EOQ
+
+# Run undercloud-metadata for the first time so cfn-init-data gets created.
+undercloud-metadata
