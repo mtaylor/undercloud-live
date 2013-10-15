@@ -48,6 +48,10 @@ popd
 git clone https://github.com/agroup/tripleo-puppet-elements
 
 git clone https://github.com/openstack/tripleo-heat-templates.git
+pushd tripleo-heat-templates
+# Sept 18 commit "Add functional tests and examples for merge"
+git git reset --hard 0dbf2810a0ee78658c35e61dc447c5f968226cb9
+popd
 
 sudo pip install -e python-dib-elements
 
