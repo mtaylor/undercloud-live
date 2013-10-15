@@ -13,20 +13,20 @@ sudo yum install -y python-pip
 # busybox is a requirement of ramdisk-image-create from diskimage-builder
 sudo yum install -y busybox
 
-sudo yum install -y ccache
+sudo yum install -y which
 
-# Migrate over to the latest setuptools
-sudo pip install -U distribute
-sudo pip install -U setuptools
+# iptables is used instead of firewalld
+sudo yum install -y iptables-services
 
-# For some reason, pbr is not getting installed correctly.
-# It is listed as setup_requires for diskimage-builder, and 
-# pip thinks it's installed from then on out, even though it is not.
-sudo pip install pbr
+# The packaged version of pbr that gets installed is
+# python-pbr-0.5.19-2.fc19.noarch
+# However, the unpackaged os-*-config expect pbr>=0.5.21, so we need to still
+# use pip to update pbr for now.
+sudo pip install -U pbr
 
-# qemu-img is still needed to convert disks when diskimage-builder is used
-sudo yum install -y python-lxml qemu-img git python-pip openssl-devel python-devel gcc audit python-virtualenv openvswitch python-yaml iptables-services
-
+# This directory is still required because not all the elements in
+# tripleo-puppet-elements has been updated to use packages, specifically
+# os-*-config still use git clones and expect this directory to be created.
 sudo mkdir -m 777 -p /opt/stack
 pushd /opt/stack
 
@@ -38,9 +38,21 @@ git pull
 popd
 
 git clone https://github.com/openstack/tripleo-incubator.git
+pushd tripleo-incubator
+# Oct 8 commit 'Switch from ">/dev/stderr" to ">&2"'
+# For the next ones let's use cherry-pick.
+# NOTE(lucasagomes): cherry-pick will require the git
+# global config to be set
+git reset --hard 8031466c1688e686d121de9a59fd4b59096b9115
+popd
 
 git clone https://github.com/openstack/diskimage-builder.git
-git clone https://github.com/openstack/tripleo-image-elements.git
+pushd diskimage-builder
+git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
+popd
+
+git clone https://github.com/agroup/tripleo-puppet-elements
+
 git clone https://github.com/openstack/tripleo-heat-templates.git
 
 sudo pip install -e python-dib-elements
@@ -55,15 +67,24 @@ if [ ! -e /etc/profile.d/tripleo-incubator-scripts.sh ]; then
     sudo bash -c "echo export PATH=/opt/stack/diskimage-builder/bin/:'\$PATH' >> /etc/profile.d/tripleo-incubator-scripts.sh"
 fi
 
+# sudo run from nova rootwrap complains about no tty
+sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
+# need to be able to pass in a modified $PATH for sudo for dib-elements to work
+sudo sed -i "s/Defaults    secure_path/# Defaults    secure_path/" /etc/sudoers
+
+# need to move this somewhere in heat package or puppet module
+sudo mkdir -p /var/log/heat
+sudo touch /var/log/heat/engine.log
+
 # This blacklists the script that removes grub2.  Obviously, we don't want to
 # do that in this scenario.
-dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
-    -e fedora \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
+    -e fedora openstack-m-repo \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
     -x neutron-openvswitch-agent \
     -i
-dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e source-repositories boot-stack \
     -k extra-data \
     -x neutron-openvswitch-agent \
@@ -81,9 +102,6 @@ dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
     -i
 
 popd
-
-# sudo run from nova rootwrap complains about no tty
-sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
 
 # Overcloud heat template
 sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml

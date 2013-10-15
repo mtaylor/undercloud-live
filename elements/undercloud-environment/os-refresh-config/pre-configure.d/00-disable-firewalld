@@ -2,9 +2,10 @@
 
 # iptables should be used, not firewalld
 
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
-sudo systemctl mask firewalld
+# It's okay for this to fail - firewalld may not be installed
+sudo systemctl stop firewalld || true
+sudo systemctl disable firewalld || true
+sudo systemctl mask firewalld || true
 
 touch /etc/sysconfig/iptables
 systemctl enable iptables

@@ -46,16 +46,6 @@ if ! id | grep libvirtd; then
     exec sudo su -l $USER $0
 fi
 
-# Switch over to use iptables instead of firewalld
-# This is needed by os-refresh-config
-sudo systemctl stop firewalld
-sudo systemctl mask firewalld
-sudo touch /etc/sysconfig/iptables
-sudo systemctl enable iptables
-sudo systemctl enable ip6tables
-sudo systemctl start iptables
-sudo systemctl start ip6tables
-
 # Perform substitution of static configuration
 sudo /usr/local/bin/undercloud-metadata
 

@@ -16,6 +16,9 @@ sudo yum install -y busybox
 # which is not installed in minimal Fedora images
 sudo yum install -y which
 
+# iptables is used instead of firewalld
+sudo yum install -y iptables-services
+
 # The packaged version of pbr that gets installed is
 # python-pbr-0.5.19-2.fc19.noarch
 # However, the unpackaged os-*-config expect pbr>=0.5.21, so we need to still
@@ -86,7 +89,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
     -e boot-stack nova-baremetal bm-dnsmasq stackuser heat-cfntools \
-       undercloud-live-config selinux-permissive \
+       undercloud-live-config undercloud-environment selinux-permissive \
     -k install \
     -i
 
