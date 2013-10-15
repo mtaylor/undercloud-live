@@ -16,7 +16,7 @@ source /etc/sysconfig/undercloudrc
 
 # Ensure keystone is up before continuing on.
 # Waits for up to 2 minutes.
-wait_for 12 10 sudo systemctl status keystone
+wait_for 12 10 sudo systemctl status openstack-keystone
 
 # Because keystone just still isn't up yet...
 sleep 20
