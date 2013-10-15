@@ -28,6 +28,7 @@ sudo pip install -U pbr
 # This directory is still required because not all the elements in
 # tripleo-puppet-elements has been updated to use packages, specifically
 # os-*-config still use git clones and expect this directory to be created.
+sudo mkdir -m 777 -p /opt/stack
 sudo mkdir -m 777 -p /opt/stack/boot-stack
 pushd /opt/stack
 
