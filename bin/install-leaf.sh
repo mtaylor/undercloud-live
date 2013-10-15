@@ -32,30 +32,43 @@ sudo mkdir -m 777 -p /opt/stack
 sudo mkdir -m 777 -p /opt/stack/boot-stack
 pushd /opt/stack
 
-git clone https://github.com/agroup/python-dib-elements.git
-git clone https://github.com/agroup/undercloud-live.git
-pushd undercloud-live
-git checkout slagle/package
-git pull
-popd
+if ! [ -d python-dib-elements ]; then
+    git clone https://github.com/agroup/python-dib-elements.git
+fi
 
-git clone https://github.com/openstack/tripleo-incubator.git
-pushd tripleo-incubator
-# Oct 8 commit 'Switch from ">/dev/stderr" to ">&2"'
-# For the next ones let's use cherry-pick.
-# NOTE(lucasagomes): cherry-pick will require the git
-# global config to be set
-git reset --hard 8031466c1688e686d121de9a59fd4b59096b9115
-popd
+if ! [ -d undercloud-live ]; then
+    git clone https://github.com/agroup/undercloud-live.git
+    pushd undercloud-live
+    git checkout slagle/package
+    git pull
+    popd
+fi
 
-git clone https://github.com/openstack/diskimage-builder.git
-pushd diskimage-builder
-git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
-popd
+if ! [ -d tripleo-incubator ]; then
+    git clone https://github.com/openstack/tripleo-incubator.git
+    pushd tripleo-incubator
+    # Oct 8 commit 'Switch from ">/dev/stderr" to ">&2"'
+    # For the next ones let's use cherry-pick.
+    # NOTE(lucasagomes): cherry-pick will require the git
+    # global config to be set
+    git reset --hard 8031466c1688e686d121de9a59fd4b59096b9115
+    popd
+fi
 
-git clone https://github.com/agroup/tripleo-puppet-elements.git
+if ! [ -d diskimage-builder ]; then
+    git clone https://github.com/openstack/diskimage-builder.git
+    pushd diskimage-builder
+    git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
+    popd
+fi
 
-git clone https://github.com/openstack/tripleo-heat-templates.git
+if ! [ -d tripleo-puppet-elements ]; then
+    git clone https://github.com/agroup/tripleo-puppet-elements.git
+fi
+
+if ! [ -d tripleo-heat-templates ]; then
+    git clone https://github.com/openstack/tripleo-heat-templates.git
+fi
 
 sudo pip install -e python-dib-elements
 sudo pip install -e diskimage-builder
