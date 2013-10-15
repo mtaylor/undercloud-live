@@ -7,6 +7,11 @@ if [ -f /opt/stack/undercloud-live/.leaf ]; then
     exit
 fi
 
+# Configure yum to preserve it's cache.
+# This is actually because of livecd-tools behavior, where this needs to be set
+# in the chroot, but it's not happening.
+sudo sed -i "s/keepcache=0/keepcache=1/g" /etc/yum.conf
+
 # Make sure pip is installed
 sudo yum install -y python-pip
 
