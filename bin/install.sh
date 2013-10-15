@@ -41,6 +41,11 @@ pushd tripleo-incubator
 # NOTE(lucasagomes): cherry-pick will require the git
 # global config to be set
 git reset --hard 8031466c1688e686d121de9a59fd4b59096b9115
+
+# Fix path to keystone-manage as called from init-keystone.
+# The full path in init-keystone is not the correct one when we install from packages.
+# Need to figure out the right patch to get this upstream.
+sed -i "s#/opt/stack/venvs/keystone/bin/keystone-manage#keystone-manage#" scripts/init-keystone
 popd
 
 git clone https://github.com/openstack/diskimage-builder.git
@@ -109,6 +114,9 @@ export LIBVIRT_DEFAULT_URI=qemu:///system
 EOF
 "
 fi
+
+# need to move this somewhere in heat package or puppet module
+sudo chown heat /var/log/heat/engine.log
 
 # Overcloud heat template
 sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml
