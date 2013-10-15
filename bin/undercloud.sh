@@ -61,6 +61,10 @@ sudo systemctl start ip6tables
 sudo systemctl enable iscsid
 sudo systemctl start iscsid
 
+# Make sure sshd is enabled and started by default
+sudo systemctl enable sshd
+sudo systemctl start sshd
+
 # starts all services and run os-refresh-config
 sudo systemctl daemon-reload
 UCL_USER=$USER sudo -E os-collect-config --one-time

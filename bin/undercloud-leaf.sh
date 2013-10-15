@@ -46,6 +46,10 @@ if ! id | grep libvirtd; then
     exec sudo su -l $USER $0
 fi
 
+# Make sure sshd is enabled and started by default
+sudo systemctl enable sshd
+sudo systemctl start sshd
+
 # Perform substitution of static configuration
 # We need -E here because variables could have been passed in when we were called.
 sudo -E /usr/local/bin/undercloud-metadata

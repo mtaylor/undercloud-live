@@ -34,8 +34,4 @@ sudo service libvirtd restart
 # this often reports failure, even though the service is up
 sudo service rabbitmq-server restart || true
 
-# Make sure sshd is enabled and started by default
-sudo systemctl enable sshd
-sudo systemctl start sshd
-
 sudo touch /opt/stack/undercloud-live/.configure
