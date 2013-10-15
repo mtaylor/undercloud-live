@@ -2,12 +2,12 @@
 
 source /etc/sysconfig/undercloud-live-config || true
 
-UNDERCLOUD_CONTROL_IP=${UNDERCLOUD_CONTROL_IP:-192.0.2.1}
-LEAF_PUBLIC_INTERFACE=${LEAF_PUBLIC_INTERFACE:-eth0}
-LIBVIRT_HOST=${LIBVIRT_HOST:-192.168.122.1}
-LIBVIRT_USER=${LIBVIRT_USER:-stack}
+sed_commands="
+    s/CONTROL_IP/$CONTROL_IP/g
+    s/CONTROL_INTERFACE/$CONTROL_INTERFACE/g
+    s/LEAF_INTERFACE/$LEAF_INTERFACE/g
+    s/LIBVIRT_HOST/$LIBVIRT_HOST/g
+    s/LIBVIRT_USER/$LIBVIRT_USER/g
+"
 
-sudo sed -i "s/192.0.2.1/$UNDERCLOUD_CONTROL_IP/g" /var/lib/heat-cfntools/cfn-init-data
-sudo sed -i "s/eth1/$LEAF_PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
-sudo sed -i "s/192.168.122.1/$LIBVIRT_HOST/g" /var/lib/heat-cfntools/cfn-init-data
-sudo sed -i "s/\"stack\"/\"$LIBVIRT_USER\"/g" /var/lib/heat-cfntools/cfn-init-data
+sed -e "$sed_commands" /var/lib/heat-cfntools/config.json > /var/lib/heat-cfntools/cfn-init-data

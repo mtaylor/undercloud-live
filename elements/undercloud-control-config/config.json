@@ -32,9 +32,9 @@
       "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
       "pxe_deploy_timeout": "2400",
       "virtual_power": {
-        "user": "stack",
+        "user": "LIBVIRT_USER",
         "key": "/opt/stack/boot-stack/virtual-power-key",
-        "ssh_host": "192.168.122.1",
+        "ssh_host": "LIBVIRT_HOST",
         "type": "virsh"
       }
     }
@@ -57,7 +57,7 @@
       "network_vlan_ranges": "ctlplane",
       "physical_bridge": "br-ctlplane",
       "physical_network": "ctlplane",
-      "public_interface": "eth1",
+      "public_interface": "CONTROL_INTERFACE",
       "tenant_network_type": "vlan"
     },
     "service-password": "unset"
