@@ -24,7 +24,7 @@
     },
     "baremetal": {
       "arch": "amd64",
-      "db": "mysql://nova:unset@192.0.2.1/nova_bm",
+      "db": "mysql://nova:unset@CONTROL_IP/nova_bm",
       "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
       "pxe_deploy_timeout": "2400",
       "virtual_power": {
@@ -38,15 +38,15 @@
     "service-password": "unset",
     "compute_driver": "baremetal.driver.BareMetalDriver",
     "compute_hostname": "undercloud-leaf",
-    "quantum_admin_auth_url":"http://192.0.2.1:35357/v2.0"
+    "quantum_admin_auth_url":"http://CONTROL_IP:35357/v2.0"
   },
   "bootstack": {
     "public_interface_ip": "192.0.2.2/24",
     "masquerade_networks": ["192.0.2.0/24"]
   },
   "neutron": {
-    "host": "192.0.2.1",
-    "ovs_db": "mysql://neutron:unset@192.0.2.1/ovs_neutron?charset=utf8",
+    "host": "CONTROL_IP",
+    "ovs_db": "mysql://neutron:unset@CONTROL_IP/ovs_neutron?charset=utf8",
     "ovs": {
       "bridge_mappings": "ctlplane:br-ctlplane",
       "dnsmasq_range": ["192.0.2.4", "192.0.2.4"],
