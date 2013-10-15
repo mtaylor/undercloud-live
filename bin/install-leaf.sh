@@ -76,10 +76,12 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e fedora \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
+    -x yum \
     -i
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e source-repositories nova-baremetal bm-dnsmasq neutron-network-node \
     -k extra-data \
+    -x yum \
     -i
 # rabbitmq-server does not start with selinux enforcing.
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
