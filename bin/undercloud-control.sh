@@ -26,7 +26,8 @@ sudo mkdir -p /var/lock/subsys
 $(dirname $0)/install-control.sh
 
 # Perform substitution of static configuration
-sudo /usr/local/bin/undercloud-metadata
+# We need -E here because variables could have been passed in when we were called.
+sudo -E /usr/local/bin/undercloud-metadata
 
 # starts all services and run os-refresh-config
 sudo systemctl daemon-reload
