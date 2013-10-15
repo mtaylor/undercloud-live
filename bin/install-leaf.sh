@@ -90,6 +90,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
        undercloud-leaf-config undercloud-environment \
        selinux-permissive \
     -k install \
+    -x yum \
     -i
 
 popd

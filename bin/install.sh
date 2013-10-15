@@ -91,6 +91,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e boot-stack nova-baremetal bm-dnsmasq stackuser heat-cfntools \
        undercloud-live-config undercloud-environment selinux-permissive \
     -k install \
+    -x yum \
     -i
 
 popd

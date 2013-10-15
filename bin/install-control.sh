@@ -98,7 +98,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
        undercloud-control-config undercloud-environment \
        selinux-permissive \
     -k install \
-    -x neutron-openvswitch-agent \
+    -x neutron-openvswitch-agent yum \
     -i
 
 popd
