@@ -98,8 +98,8 @@ sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
 sudo sed -i "s/Defaults    secure_path/# Defaults    secure_path/" /etc/sudoers
 
 # Exclude some elements if it appears that we're running this script on top of
-# a control node.  We use the existence of /opt/stack/nova to determine that.
-if [ -d /opt/stack/nova ]; then
+# a control node.  We use the existence of /opt/stack/novnc to determine that.
+if [ -d /opt/stack/novnc ]; then
     EXCLUDE_ELEMENTS="novnc stackuser"
 else
     EXCLUDE_ELEMENTS=
