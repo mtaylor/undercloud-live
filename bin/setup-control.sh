@@ -29,9 +29,9 @@ sudo chmod 0700 /root/.ssh
 sudo bash -c "cat /home/$USER/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
 
 init-keystone -p unset unset \
-    $UNDERCLOUD_CONTROL_IP admin@example.com root@$UNDERCLOUD_CONTROL_IP
+    $CONTROL_IP admin@example.com root@$CONTROL_IP
 
-setup-endpoints $UNDERCLOUD_CONTROL_IP --glance-password unset \
+setup-endpoints $CONTROL_IP --glance-password unset \
     --heat-password unset \
     --neutron-password unset \
     --nova-password unset
