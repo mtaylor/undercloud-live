@@ -103,6 +103,9 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 
 popd
 
+# need to move this somewhere in heat package or puppet module
+sudo chown heat /var/log/heat/engine.log
+
 # Overcloud heat template
 sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml
 
