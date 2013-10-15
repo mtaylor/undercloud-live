@@ -3,6 +3,7 @@
 set -eux
 
 if [ -f /opt/stack/undercloud-live/.network-control ]; then
+    echo network-control.sh has already run, exiting.
     exit
 fi
 

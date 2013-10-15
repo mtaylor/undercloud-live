@@ -2,8 +2,8 @@
 
 set -eux
 
-if [ -f /opt/stack/undercloud-live/.leaf ]; then
-    echo install.sh has already run, exiting.
+if [ -f /opt/stack/undercloud-live/.install-leaf ]; then
+    echo install-leaf.sh has already run, exiting.
     exit
 fi
 
@@ -164,4 +164,4 @@ sudo sed -i "s/192.168.122.254/$LIBVIRT_NETWORK_RANGE_END/g" /etc/libvirt/qemu/n
 sudo mv /opt/stack/os-config-refresh/configure.d/50-os-config-applier \
         /opt/stack/os-config-refresh/configure.d/40-os-config-applier
 
-touch /opt/stack/undercloud-live/.leaf
+touch /opt/stack/undercloud-live/.install-leaf

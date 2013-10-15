@@ -7,7 +7,8 @@ source /etc/sysconfig/undercloud-live-config
 
 # The commands in this script require a running, configured cloud.
 
-if [ -f /opt/stack/undercloud-live/.setup ]; then
+if [ -f /opt/stack/undercloud-live/.setup-control ]; then
+    echo setup-control.sh has already run, exiting.
     exit
 fi
 
@@ -41,4 +42,4 @@ keystone role-create --name heat_stack_user
 # Adds default ssh key to nova
 /opt/stack/tripleo-incubator/scripts/user-config
 
-sudo touch /opt/stack/undercloud-live/.setup
+sudo touch /opt/stack/undercloud-live/.setup-control

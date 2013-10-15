@@ -2,8 +2,8 @@
 
 set -eux
 
-if [ -e /opt/stack/undercloud-live/.configure ]; then
-    echo configure.sh has already run, exiting.
+if [ -e /opt/stack/undercloud-live/.configure-control ]; then
+    echo configure-control.sh has already run, exiting.
     exit
 fi
 
@@ -28,4 +28,4 @@ fi
 # this often reports failure, even though the service is up
 sudo service rabbitmq-server restart || true
 
-sudo touch /opt/stack/undercloud-live/.configure
+sudo touch /opt/stack/undercloud-live/.configure-control

@@ -2,8 +2,8 @@
 
 set -eux
 
-if [ -f /opt/stack/undercloud-live/.install ]; then
-    echo install.sh has already run, exiting.
+if [ -f /opt/stack/undercloud-live/.install-control ]; then
+    echo install-control.sh has already run, exiting.
     exit
 fi
 
@@ -124,4 +124,4 @@ sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml
 sudo mv /opt/stack/os-config-refresh/configure.d/50-os-config-applier \
         /opt/stack/os-config-refresh/configure.d/40-os-config-applier
 
-touch /opt/stack/undercloud-live/.install 
+touch /opt/stack/undercloud-live/.install-control
