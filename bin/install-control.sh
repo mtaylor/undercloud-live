@@ -91,7 +91,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -i
 # rabbitmq-server does not start with selinux enforcing.
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
-dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
     -e boot-stack \
        stackuser heat-cfntools \
