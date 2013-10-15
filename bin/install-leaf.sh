@@ -25,7 +25,10 @@ sudo yum install -y iptables-services
 # use pip to update pbr for now.
 sudo pip install -U pbr
 
-sudo mkdir -m 777 -p /opt/stack
+# This directory is still required because not all the elements in
+# tripleo-puppet-elements has been updated to use packages, specifically
+# os-*-config still use git clones and expect this directory to be created.
+sudo mkdir -m 777 -p /opt/stack/boot-stack
 pushd /opt/stack
 
 git clone https://github.com/agroup/python-dib-elements.git
