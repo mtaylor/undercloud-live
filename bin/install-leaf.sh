@@ -12,6 +12,11 @@ fi
 # in the chroot, but it's not happening.
 sudo sed -i "s/keepcache=0/keepcache=1/g" /etc/yum.conf
 
+# Doing this just so that this script can be run on top of a control node.  If
+# the package is already installed, when yum goes to install it later, it will
+# fail.  No other packages depend on it, so this is safe to do.
+sudo yum erase -y rdo-release-havana
+
 # Make sure pip is installed
 sudo yum install -y python-pip
 
@@ -92,6 +97,14 @@ sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
 # need to be able to pass in a modified $PATH for sudo for dib-elements to work
 sudo sed -i "s/Defaults    secure_path/# Defaults    secure_path/" /etc/sudoers
 
+# Exclude some elements if it appears that we're running this script on top of
+# a control node.  We use the existence of /opt/stack/nova to determine that.
+if [ -d /opt/stack/nova ]; then
+    EXCLUDE_ELEMENTS="novnc stackuser"
+else
+    EXCLUDE_ELEMENTS=
+fi
+
 # This blacklists the script that removes grub2.  Obviously, we don't want to
 # do that in this scenario.
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
@@ -103,7 +116,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e source-repositories nova-baremetal bm-dnsmasq neutron-network-node \
     -k extra-data \
-    -x yum \
+    -x yum $EXCLUDE_ELEMENTS \
     -i
 # rabbitmq-server does not start with selinux enforcing.
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
@@ -114,7 +127,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
        undercloud-leaf-config undercloud-environment \
        selinux-permissive \
     -k install \
-    -x yum \
+    -x yum $EXCLUDE_ELEMENTS \
     -i
 
 popd
