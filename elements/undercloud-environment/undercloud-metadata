@@ -10,4 +10,12 @@ sed_commands="
     s/LIBVIRT_USER/$LIBVIRT_USER/g
 "
 
+echo "Writing /var/lib/heat-cfntools/cfn-init-data"
 sed -e "$sed_commands" /var/lib/heat-cfntools/config.json > /var/lib/heat-cfntools/cfn-init-data
+
+echo -n "Restarting os-collect-config...."
+sudo systemctl restart os-collect-config
+echo "Done."
+
+echo "You may want to watch it's progress by running:"
+echo "journalctl --full -f -u os-collect-config"
