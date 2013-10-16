@@ -28,10 +28,10 @@
       "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
       "pxe_deploy_timeout": "2400",
       "virtual_power": {
-        "user": "stack",
+        "user": "LIBVIRT_USER",
         "key": "/opt/stack/boot-stack/virtual-power-key",
         "ssh_host": "LIBVIRT_HOST",
-        "type": "LIBVIRT_USER"
+        "type": "stack"
       }
     },
     "metadata-proxy": "false",
