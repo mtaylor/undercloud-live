@@ -257,6 +257,10 @@ Each step below (where applicable) is prefaced with what system to run it on.
         export LEAF_IP=192.168.122.101
         ssh stack@$LEAF_IP "cat /opt/stack/boot-stack/virtual-power-key.pub" >> ~/.ssh/authorized_keys
 
+1. [CONTROL] Deploy an Overcloud.
+
+        /opt/stack/undercloud-live/bin/deploy-overcloud.sh
+
 ### Live Image Additional Info
 
 1. You can use the Install to Hard Drive shortcut on the desktop to install the
