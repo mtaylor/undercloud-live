@@ -251,6 +251,11 @@ Each step below (where applicable) is prefaced with what system to run it on.
 
         /opt/stack/undercloud-live/bin/baremetal-2node.sh
 
+1. [HOST] Add the configured virtual power host key to ~/.ssh/authorized_keys
+   on the host.  Define $LEAF_IP as needed for your environment.
+
+        export LEAF_IP=192.168.122.101
+        ssh stack@$LEAF_IP "cat /opt/stack/boot-stack/virtual-power-key.pub" >> ~/.ssh/authorized_keys
 
 ### Live Image Additional Info
 
