@@ -157,37 +157,38 @@ The 2-node (control and leaf) version of undercloud-live uses the host's
 libvirt instance for the baremetal nodes.  This makes it easier to use vm's for
 everythng, but, there is some host setup that needs to be done.
 
-First, boot 2 vm's for the control node and leaf node.
+Each step below (where applicable) is prefaced with what system to run it on.
+ * HOST - the virtualization host you're using to run vm's
+ * CONTROL - undercloud control node
+ * LEAF - undercloud leaf node
 
-Perform the following steps on the host to set it up:
-
-1. Clone the repositories for tripleo-incubator and undercloud-live.
+1. [HOST] Clone the repositories for tripleo-incubator and undercloud-live.
 
         git clone https://github.com/openstack/tripleo-incubator
         git clone https://github.com/agroup/undercloud-live
 
-1. Define $TRIPLEO_ROOT, and prepend it to your path.
+1. [HOST] Define $TRIPLEO_ROOT, and prepend it to your path.
 
         export TRIPLEO_ROOT=/full/path/to/tripleo-incubator/scripts
         export PATH=$TRIPLEO_ROOT:$PATH
 
-1. Define environment variables for the baremetal nodes.
+1. [HOST] Define environment variables for the baremetal nodes.
 
         export NODE_CPU=1
         export NODE_MEM=2048
         export NODE_DISK=20 
         export NODE_ARCH=amd64
 
-1. Setup the brbm openvswitch bridge and libvirt network.
+1. [HOST] Setup the brbm openvswitch bridge and libvirt network.
 
         setup-network
 
-1. Create the baremetal nodes.  Specify the path to your undercloud-live 
+1. [HOST] Create the baremetal nodes.  Specify the path to your undercloud-live 
    checkout as needed.  Save the output of this command, you will need it later.
 
         undercloud-live/bin/nodes.sh
 
-1. Create a vm for the control node, and one for the leaf node.  Before
+1. [HOST] Create a vm for the control node, and one for the leaf node.  Before
    starting the vm for the leaf node, edit it's libvirt xml and add the
    following as an additional network interface.
 
@@ -196,9 +197,9 @@ Perform the following steps on the host to set it up:
             <model type='e1000'/>
         </interface>
 
-1. Start the vm's for the control and leaf nodes.  
+1. [HOST] Start the vm's for the control and leaf nodes.  
 
-1. Install the images to disk.
+1. [CONTROL],[LEAF] Install the images to disk.
    There is a kickstart file included on the images to make this easier.
    However, before using the kickstart file, first make sure that a network
    configuration script exists for every network interface (this might be
@@ -212,13 +213,13 @@ Perform the following steps on the host to set it up:
         sudo cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-ens3
         sudo cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-ens6
    
-1. Make any needed changes to the kickstart file and then run:
+1. [CONTROL],[LEAF] Make any needed changes to the kickstart file and then run:
 
         liveinst --kickstart /opt/stack/undercloud-live/kickstart/anaconda-ks.cfg
 
-1. Once the install has finished, reboot the control and leaf vm's.
+1. [CONTROL],[LEAF] Once the install has finished, reboot the control and leaf vm's.
 
-1. On the control node, edit /etc/sysconfig/undercloud-live-config and set all
+1. [CONTROL] Edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Rememver to set
    $UNDERCLOUD_MACS based on the output from when nodes.sh was run earlier.  Then run undercloud-metadata
    on the control node, and refresh the configuration.
@@ -226,12 +227,11 @@ Perform the following steps on the host to set it up:
         undercloud-metadata
         os-collect-config --one-time
 
-1. On the leaf node, edit /etc/sysconfig/undercloud-live-config and set all
+1. [LEAF] Edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Then run undercloud-metadata
    on the leaf node, and refresh the configuration.
 
         undercloud-metadata
-        os-collect-config --one-time
 
 1. Copy over images, or build them on the control node for the deploy kernel
    and overcloud images.  You will need the following images to exist on the
@@ -242,11 +242,11 @@ Perform the following steps on the host to set it up:
         /opt/stack/images/deploy-ramdisk.initramfs
         /opt/stack/images/deploy-ramdisk.kernel
 
-1. On the control node, load the images into glance.
+1. [CONTROL] Load the images into glance.
 
         /opt/stack/undercloud-live/bin/images.sh
 
-1. On the control node, run the script to setup the baremetal nodes, and define
+1. [CONTROL] Run the script to setup the baremetal nodes, and define
    the baremetal flavor.
 
         /opt/stack/undercloud-live/bin/baremetal-2node.sh
