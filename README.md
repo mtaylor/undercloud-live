@@ -166,9 +166,10 @@ Perform the following steps on the host to set it up:
         git clone https://github.com/openstack/tripleo-incubator
         git clone https://github.com/agroup/undercloud-live
 
-1. Define $TRIPLEO_ROOT.
+1. Define $TRIPLEO_ROOT, and prepend it to your path.
 
         export TRIPLEO_ROOT=/full/path/to/tripleo-incubator/scripts
+        export PATH=$TRIPLEO_ROOT:$PATH
 
 1. Define environment variables for the baremetal nodes.
 
@@ -181,7 +182,8 @@ Perform the following steps on the host to set it up:
 
         setup-network
 
-1. Create the baremetal nodes.  Specify the path to your undercloud-live checkout as needed.
+1. Create the baremetal nodes.  Specify the path to your undercloud-live 
+   checkout as needed.  Save the output of this command, you will need it later.
 
         undercloud-live/bin/nodes.sh
 
@@ -194,9 +196,23 @@ Perform the following steps on the host to set it up:
             <model type='e1000'/>
         </interface>
 
-1. Start the vm's for the control and leaf nodes.  Install the images to disk.
-   There is a kickstart file included on the images to make this easier.  Make
-   any needed changes to the kickstart file and then run:
+1. Start the vm's for the control and leaf nodes.  
+
+1. Install the images to disk.
+   There is a kickstart file included on the images to make this easier.
+   However, before using the kickstart file, first make sure that a network
+   configuration script exists for every network interface (this might be
+   a Fedora bug).  Here are some example commands that copy network scripts for 
+   a system with 1 interface, and a system with 2 interfaces
+
+        # System with 1 interface called ens3
+        sudo cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-ens3
+
+        # System with 2 interfaces, ens3 and ens6
+        sudo cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-ens3
+        sudo cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-ens6
+   
+1. Make any needed changes to the kickstart file and then run:
 
         liveinst --kickstart /opt/stack/undercloud-live/kickstart/anaconda-ks.cfg
 
@@ -205,21 +221,35 @@ Perform the following steps on the host to set it up:
 1. On the control node, edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Rememver to set
    $UNDERCLOUD_MACS based on the output from when nodes.sh was run earlier.  Then run undercloud-metadata
-   on the control node, and refresh the metadata.
+   on the control node, and refresh the configuration.
 
         undercloud-metadata
         os-collect-config --one-time
 
 1. On the leaf node, edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Then run undercloud-metadata
-   on the leaf node, and refresh the metadata.
+   on the leaf node, and refresh the configuration.
 
         undercloud-metadata
         os-collect-config --one-time
 
-1. On the control node, setup the baremetal nodes.
+1. Copy over images, or build them on the control node for the deploy kernel
+   and overcloud images.  You will need the following images to exist on the
+   control node.
 
-        baremetal-2node.sh
+        /opt/stack/images/overcloud-control.qcow2
+        /opt/stack/images/overcloud-compute.qcow2
+        /opt/stack/images/deploy-ramdisk.initramfs
+        /opt/stack/images/deploy-ramdisk.kernel
+
+1. On the control node, load the images into glance.
+
+        /opt/stack/undercloud-live/bin/images.sh
+
+1. On the control node, run the script to setup the baremetal nodes, and define
+   the baremetal flavor.
+
+        /opt/stack/undercloud-live/bin/baremetal-2node.sh
 
 
 ### Live Image Additional Info
