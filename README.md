@@ -163,42 +163,42 @@ Perform the following steps on the host to set it up:
 
 1. Clone the repositories for tripleo-incubator and undercloud-live.
 
-    git clone https://github.com/openstack/tripleo-incubator
-    git clone https://github.com/agroup/undercloud-live
+        git clone https://github.com/openstack/tripleo-incubator
+        git clone https://github.com/agroup/undercloud-live
 
 1. Define $TRIPLEO_ROOT.
 
-    export TRIPLEO_ROOT=/full/path/to/tripleo-incubator/scripts
+        export TRIPLEO_ROOT=/full/path/to/tripleo-incubator/scripts
 
 1. Define environment variables for the baremetal nodes.
 
-    export NODE_CPU=1
-    export NODE_MEM=2048
-    export NODE_DISK=20 
-    export NODE_ARCH=amd64
+        export NODE_CPU=1
+        export NODE_MEM=2048
+        export NODE_DISK=20 
+        export NODE_ARCH=amd64
 
 1. Setup the brbm openvswitch bridge and libvirt network.
 
-    setup-network
+        setup-network
 
 1. Create the baremetal nodes.  Specify the path to your undercloud-live checkout as needed.
 
-    undercloud-live/bin/nodes.sh
+        undercloud-live/bin/nodes.sh
 
 1. Create a vm for the control node, and one for the leaf node.  Before
    starting the vm for the leaf node, edit it's libvirt xml and add the
    following as an additional network interface.
 
-    <interface type='network'>
-      <source network='brbm'/>
-      <model type='e1000'/>
-    </interface>
+        <interface type='network'>
+            <source network='brbm'/>
+            <model type='e1000'/>
+        </interface>
 
 1. Start the vm's for the control and leaf nodes.  Install the images to disk.
    There is a kickstart file included on the images to make this easier.  Make
    any needed changes to the kickstart file and then run:
 
-   liveinst --kickstart /opt/stack/undercloud-live/kickstart/anaconda-ks.cfg
+        liveinst --kickstart /opt/stack/undercloud-live/kickstart/anaconda-ks.cfg
 
 1. Once the install has finished, reboot the control and leaf vm's.
 
@@ -207,19 +207,19 @@ Perform the following steps on the host to set it up:
    $UNDERCLOUD_MACS based on the output from when nodes.sh was run earlier.  Then run undercloud-metadata
    on the control node, and refresh the metadata.
 
-   undercloud-metadata
-   os-collect-config --one-time
+        undercloud-metadata
+        os-collect-config --one-time
 
 1. On the leaf node, edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Then run undercloud-metadata
    on the leaf node, and refresh the metadata.
 
-   undercloud-metadata
-   os-collect-config --one-time
+        undercloud-metadata
+        os-collect-config --one-time
 
 1. On the control node, setup the baremetal nodes.
 
-    baremetal-2node.sh
+        baremetal-2node.sh
 
 
 ### Live Image Additional Info
