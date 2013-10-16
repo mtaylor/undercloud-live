@@ -9,7 +9,7 @@ part / --size 6144 --fstype ext4
 selinux --permissive
 
 # we need a network to setup the undercloud
-network --activate --device=eth0 --bootproto=dhcp
+network --activate --device=eth0 --bootproto=dhcp --hostname=ucl-leaf-live
 
 ##############################################################################
 # Packages
