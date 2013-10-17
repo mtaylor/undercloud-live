@@ -7,10 +7,10 @@ if [ -f /opt/stack/undercloud-live/.install ]; then
     exit
 fi
 
-sudo yum install -y wget
-wget http://kojipkgs.fedoraproject.org/packages/diskimage-builder/0.0.5/1.fc19/noarch/diskimage-builder-0.0.5-1.fc19.noarch.rpm
-sudo yum install -y diskimage-builder-0.0.5-1.fc19.noarch.rpm
-rm diskimage-builder-0.0.5-1.fc19.noarch.rpm
+#sudo yum install -y wget
+#wget http://kojipkgs.fedoraproject.org/packages/diskimage-builder/0.0.5/1.fc19/noarch/diskimage-builder-0.0.5-1.fc19.noarch.rpm
+#sudo yum install -y diskimage-builder-0.0.5-1.fc19.noarch.rpm
+#rm diskimage-builder-0.0.5-1.fc19.noarch.rpm
 
 # Make sure pip is installed
 sudo yum install -y python-pip
@@ -43,6 +43,14 @@ pushd tripleo-incubator
 # NOTE(lucasagomes): cherry-pick will require the git
 # global config to be set
 git reset --hard 8031466c1688e686d121de9a59fd4b59096b9115
+popd
+
+git clone https://github.com/openstack/diskimage-builder.git
+pushd diskimage-builder
+git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/30/46230/1 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/21/52321/3 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/49/52349/3 && git cherry-pick -x FETCH_HEAD
 popd
 
 git clone https://github.com/agroup/tripleo-puppet-elements
