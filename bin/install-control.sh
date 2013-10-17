@@ -92,12 +92,12 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e fedora openstack-m-repo \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
-    -x neutron-openvswitch-agent yum \
+    -x yum \
     -i
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e source-repositories boot-stack \
     -k extra-data \
-    -x neutron-openvswitch-agent yum \
+    -x yum \
     -i
 # rabbitmq-server does not start with selinux enforcing.
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
@@ -108,7 +108,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
        undercloud-control-config undercloud-environment \
        selinux-permissive \
     -k install \
-    -x neutron-openvswitch-agent yum \
+    -x yum \
     -i
 
 popd
