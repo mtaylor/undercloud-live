@@ -62,6 +62,7 @@ git reset --hard 0dbf2810a0ee78658c35e61dc447c5f968226cb9
 popd
 
 sudo pip install -e python-dib-elements
+sudo pip install -e diskimage-builder
 
 # Add scripts directory from tripleo-incubator and diskimage-builder to the
 # path.
@@ -83,18 +84,18 @@ sudo touch /var/log/heat/engine.log
 
 # This blacklists the script that removes grub2.  Obviously, we don't want to
 # do that in this scenario.
-dib-elements -p /usr/share/diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e fedora openstack-m-repo \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
     -i
-dib-elements -p /usr/share/diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e source-repositories boot-stack nova-baremetal \
     -k extra-data \
     -i
 # rabbitmq-server does not start with selinux enforcing.
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
-dib-elements -p /usr/share/diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
     -e boot-stack nova-baremetal bm-dnsmasq stackuser heat-cfntools \
        undercloud-live-config selinux-permissive \
