@@ -162,15 +162,20 @@ Each step below (where applicable) is prefaced with what system to run it on.
  * CONTROL - undercloud control node
  * LEAF - undercloud leaf node
 
+1. [HOST] Define and use a $TRIPLEO_ROOT directory
+
+        mkdir tripleo
+        export TRIPLEO_ROOT=/full/path/to/tripleo
+        cd $TRIPLEO_ROOT
+
 1. [HOST] Clone the repositories for tripleo-incubator and undercloud-live.
 
         git clone https://github.com/openstack/tripleo-incubator
         git clone https://github.com/agroup/undercloud-live
 
-1. [HOST] Define $TRIPLEO_ROOT, and prepend it to your path.
+1. [HOST] Add the tripleo scripts to your path.
 
-        export TRIPLEO_ROOT=/full/path/to/tripleo-incubator/scripts
-        export PATH=$TRIPLEO_ROOT:$PATH
+        export PATH=$TRIPLEO_ROOT/tripleo-incubator/scripts:$PATH
 
 1. [HOST] Define environment variables for the baremetal nodes.
 
