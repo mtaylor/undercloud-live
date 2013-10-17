@@ -31,7 +31,7 @@
         "user": "LIBVIRT_USER",
         "key": "/opt/stack/boot-stack/virtual-power-key",
         "ssh_host": "LIBVIRT_HOST",
-        "type": "stack"
+        "type": "virsh"
       }
     },
     "metadata-proxy": "false",
