@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eux
+
+# Need to delete the iptables rule added by 81-nat-metadata as part of the
+# nova-baremetal element, since we don't want to redirect to the local 8775
+# port on leaf nodes.
+
+EXTERNAL_BRIDGE=$(os-config-applier --key neutron.ovs.physical_bridge --type raw --key-default '')
+
+iptables -t nat -D PREROUTING -d 169.254.169.254/32 -i $EXTERNAL_BRIDGE -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8775 || true
