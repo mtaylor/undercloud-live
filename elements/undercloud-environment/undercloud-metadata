@@ -13,6 +13,8 @@ sed_commands="
 echo "Writing /var/lib/heat-cfntools/cfn-init-data"
 sed -e "$sed_commands" /var/lib/heat-cfntools/config.json > /var/lib/heat-cfntools/cfn-init-data
 
+sudo rm -f /opt/stack/boot-stack/metadata-iptables.ok
+
 echo -n "Restarting os-collect-config...."
 sudo systemctl restart os-collect-config
 echo "Done."
