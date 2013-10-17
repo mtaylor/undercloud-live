@@ -262,9 +262,16 @@ Each step below (where applicable) is prefaced with what system to run it on.
         export LEAF_IP=192.168.122.101
         ssh stack@$LEAF_IP "cat /opt/stack/boot-stack/virtual-power-key.pub" >> ~/.ssh/authorized_keys
 
-1. [CONTROL] Deploy an Overcloud.
+1. [CONTROL] Deploy an Overcloud.  If you're deploying the Overcloud to
+   baremetal, first edit deploy-overcloud.sh and update $OVERCLOUD_LIBVIRT_TYPE
+   to "kvm" instead.
 
         /opt/stack/undercloud-live/bin/deploy-overcloud.sh
+
+1. [CONTROL] To use any of the OpenStack clients, source the undercloudrc file
+   first:
+
+        source /etc/sysconfig/undercloudrc
 
 ### Live Image Additional Info
 
