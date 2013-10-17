@@ -15,6 +15,7 @@ NODE_ARCH=${NODE_ARCH:-amd64}
 UNDERCLOUD_MACS=${UNDERCLOUD_MACS:-""}
 LIBVIRT_HOST=${LIBVIRT_HOST:-192.168.122.1}
 LIBVIRT_USER=${LIBVIRT_USER:-stack}
+OVERCLOUD_LIBVIRT_TYPE=${OVERCLOUD_LIBVIRT_TYPE:-qemu}
 
 
 cat >> /etc/sysconfig/undercloud-live-config << EOQ
@@ -32,6 +33,8 @@ export UNDERCLOUD_MACS="$UNDERCLOUD_MACS"
 
 export LIBVIRT_HOST=$LIBVIRT_HOST
 export LIBVIRT_USER=$LIBVIRT_USER
+
+export OVERCLOUD_LIBVIRT_TYPE=$OVERCLOUD_LIBVIRT_TYPE
 EOQ
 
 # Run undercloud-metadata for the first time so cfn-init-data gets created.
