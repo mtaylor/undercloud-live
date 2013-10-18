@@ -235,16 +235,15 @@ Each step below (where applicable) is prefaced with what system to run it on.
 1. [CONTROL] Edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Rememver to set
    $UNDERCLOUD_MACS based on the output from when nodes.sh was run earlier.  Then run undercloud-metadata
-   on the control node, and refresh the configuration.
+   on the control node to refresh the configuration.
 
-        undercloud-metadata
-        os-collect-config --one-time
+        sudo undercloud-metadata
 
 1. [LEAF] Edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Then run undercloud-metadata
-   on the leaf node, and refresh the configuration.
+   on the leaf node to refresh the configuration.
 
-        undercloud-metadata
+        sudo undercloud-metadata
 
 1. Copy over images, or build them on the control node for the deploy kernel
    and overcloud images.  You will need the following images to exist on the
