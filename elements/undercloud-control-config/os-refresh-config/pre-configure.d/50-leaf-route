@@ -1,8 +1,8 @@
 #!/bin/bash
-set -eu
+set -eux
 
 source /etc/sysconfig/undercloud-live-config || true
-LEAF_IP=${UNDERCLOUD_LEAF_IP:-192.0.2.2}
+LEAF_IP=${LEAF_IP:-192.0.2.2}
 CONTROL_INTERFACE=${CONTROL_INTERFACE:-eth0}
 
 sudo ip route del 192.0.2.0/24 dev $CONTROL_INTERFACE || true
