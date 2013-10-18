@@ -107,6 +107,9 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 
 popd
 
+# need to move this somewhere in heat package or puppet module
+sudo chown heat.heat /var/log/heat/engine.log
+
 # the current user needs to always connect to the system's libvirt instance
 # when virsh is run
 if [ ! -e /etc/profile.d/virsh.sh ]; then
