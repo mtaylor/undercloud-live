@@ -193,16 +193,21 @@ Each step below (where applicable) is prefaced with what system to run it on.
 
         undercloud-live/bin/nodes.sh
 
-1. [HOST] Create a vm for the control node, and one for the leaf node.  Before
-   starting the vm for the leaf node, edit it's libvirt xml and add the
-   following as an additional network interface.
+1. [HOST] Create a vm for the control node, and one for the leaf node.  There
+   are libvirt templates called ucl-control-live and ucl-leaf-live in the
+   undercloud-live checkout in the templates directory to *help* with this.
+   Review the templates and make any changes you'd like (to increate ram, etc).
+   
+1. [HOST] Before starting the vm for the leaf node, edit it's libvirt xml and
+   add the following as an additional network interface.
 
         <interface type='network'>
             <source network='brbm'/>
             <model type='e1000'/>
         </interface>
 
-1. [HOST] Start the vm's for the control and leaf nodes.  
+1. [HOST] Boot the vm's for the control and leaf nodes from their respective
+   iso images.
 
 1. [CONTROL],[LEAF] Install the images to disk.
    There is a kickstart file included on the images to make this easier.
@@ -218,11 +223,14 @@ Each step below (where applicable) is prefaced with what system to run it on.
         sudo cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-ens3
         sudo cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-ens6
    
-1. [CONTROL],[LEAF] Make any needed changes to the kickstart file and then run:
+1. [CONTROL],[LEAF] Make any needed changes to the kickstart file and then run
+   (This should be run as liveuser, not root):
 
         liveinst --kickstart /opt/stack/undercloud-live/kickstart/anaconda-ks.cfg
 
-1. [CONTROL],[LEAF] Once the install has finished, reboot the control and leaf vm's.
+1. [CONTROL],[LEAF] Once the install has finished, reboot the control and leaf
+   vm's.  Make sure when they reboot, they boot from disk, not iso.  You can
+   login with either stack/stack or root/root.
 
 1. [CONTROL] Edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Rememver to set
