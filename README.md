@@ -172,6 +172,9 @@ Each step below (where applicable) is prefaced with what system to run it on.
 
         git clone https://github.com/openstack/tripleo-incubator
         git clone https://github.com/agroup/undercloud-live
+        pushd undercloud-live
+        git checkout slagle/package
+        popd
 
 1. [HOST] Add the tripleo scripts to your path.
 
