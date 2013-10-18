@@ -45,7 +45,7 @@ popd
 git clone https://github.com/openstack/tripleo-incubator.git
 pushd tripleo-incubator
 git config user.email "you@example.com"
-git config user.email "Your Name"
+git config user.name "Your Name"
 # Oct 8 commit 'Switch from ">/dev/stderr" to ">&2"'
 # For the next ones let's use cherry-pick.
 # NOTE(lucasagomes): cherry-pick will require the git
@@ -61,7 +61,7 @@ popd
 git clone https://github.com/openstack/diskimage-builder.git
 pushd diskimage-builder
 git config user.email "you@example.com"
-git config user.email "Your Name"
+git config user.name "Your Name"
 git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
 git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/30/46230/1 && git cherry-pick -x FETCH_HEAD
 git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/21/52321/3 && git cherry-pick -x FETCH_HEAD
@@ -74,7 +74,7 @@ git clone https://github.com/agroup/tripleo-puppet-elements
 git clone https://github.com/openstack/tripleo-heat-templates.git
 pushd tripleo-heat-templates
 git config user.email "you@example.com"
-git config user.email "Your Name"
+git config user.name "Your Name"
 # Sept 18 commit "Add functional tests and examples for merge"
 git reset --hard 0dbf2810a0ee78658c35e61dc447c5f968226cb9
 popd
