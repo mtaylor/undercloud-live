@@ -7,10 +7,10 @@ if [ -f /opt/stack/undercloud-live/.install ]; then
     exit
 fi
 
-sudo yum install -y wget
-wget http://kojipkgs.fedoraproject.org/packages/diskimage-builder/0.0.5/1.fc19/noarch/diskimage-builder-0.0.5-1.fc19.noarch.rpm
-sudo yum install -y diskimage-builder-0.0.5-1.fc19.noarch.rpm
-rm diskimage-builder-0.0.5-1.fc19.noarch.rpm
+#sudo yum install -y wget
+#wget http://kojipkgs.fedoraproject.org/packages/diskimage-builder/0.0.5/1.fc19/noarch/diskimage-builder-0.0.5-1.fc19.noarch.rpm
+#sudo yum install -y diskimage-builder-0.0.5-1.fc19.noarch.rpm
+#rm diskimage-builder-0.0.5-1.fc19.noarch.rpm
 
 # Make sure pip is installed
 sudo yum install -y python-pip
@@ -53,6 +53,15 @@ git reset --hard 8031466c1688e686d121de9a59fd4b59096b9115
 sed -i "s#/opt/stack/venvs/keystone/bin/keystone-manage#keystone-manage#" scripts/init-keystone
 popd
 
+git clone https://github.com/openstack/diskimage-builder.git
+pushd diskimage-builder
+git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/30/46230/1 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/21/52321/3 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/49/52349/3 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/38/52538/1 && git cherry-pick -x FETCH_HEAD
+popd
+
 git clone https://github.com/agroup/tripleo-puppet-elements
 
 git clone https://github.com/openstack/tripleo-heat-templates.git
@@ -62,6 +71,7 @@ git reset --hard 0dbf2810a0ee78658c35e61dc447c5f968226cb9
 popd
 
 sudo pip install -e python-dib-elements
+sudo pip install -e diskimage-builder
 
 # Add scripts directory from tripleo-incubator and diskimage-builder to the
 # path.
@@ -83,20 +93,20 @@ sudo touch /var/log/heat/engine.log
 
 # This blacklists the script that removes grub2.  Obviously, we don't want to
 # do that in this scenario.
-dib-elements -p /usr/share/diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e fedora openstack-m-repo \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
     -x yum \
     -i
-dib-elements -p /usr/share/diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e source-repositories boot-stack nova-baremetal \
     -k extra-data \
     -x yum \
     -i
 # rabbitmq-server does not start with selinux enforcing.
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
-dib-elements -p /usr/share/diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
     -e boot-stack nova-baremetal bm-dnsmasq stackuser heat-cfntools \
        undercloud-live-config undercloud-environment selinux-permissive \
