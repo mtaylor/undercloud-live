@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo livecd-creator \
+sudo time livecd-creator \
     --debug \
     --verbose \
     --title "Fedora Undercloud Control" \
@@ -8,9 +8,9 @@ sudo livecd-creator \
     --cache=/var/cache/yum \
     --releasever=19 \
     -t /tmp/ \
-    --config fedora-undercloud-control-livecd.ks 
+    --config fedora-undercloud-control-livecd.ks 2>&1 | tee ucl-control.log
 
-sudo livecd-creator \
+sudo time livecd-creator \
     --debug \
     --verbose \
     --title "Fedora Undercloud Leaf" \
@@ -18,4 +18,4 @@ sudo livecd-creator \
     --cache=/var/cache/yum \
     --releasever=19 \
     -t /tmp/ \
-    --config fedora-undercloud-leaf-livecd.ks 
+    --config fedora-undercloud-leaf-livecd.ks 2>&1 | tee ucl-leaf.log
