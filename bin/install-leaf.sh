@@ -42,6 +42,14 @@ sudo mkdir -m 777 -p /opt/stack
 sudo mkdir -m 777 -p /opt/stack/boot-stack
 pushd /opt/stack
 
+if ! [ $(git config --global user.email) ]; then
+    git config --global user.email "you@example.com"
+fi
+if ! [ $(git config --global user.name) ]; then
+    git config --global user.email "Your Name"
+fi
+
+
 if ! [ -d python-dib-elements ]; then
     git clone https://github.com/agroup/python-dib-elements.git
 fi
@@ -66,6 +74,7 @@ if ! [ -d tripleo-incubator ]; then
 fi
 
 if ! [ -d diskimage-builder ]; then
+    git clone https://github.com/openstack/diskimage-builder.git
     pushd diskimage-builder
     git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
     git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/30/46230/1 && git cherry-pick -x FETCH_HEAD

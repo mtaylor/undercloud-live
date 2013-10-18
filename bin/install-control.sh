@@ -35,6 +35,13 @@ sudo pip install -U pbr
 sudo mkdir -m 777 -p /opt/stack
 pushd /opt/stack
 
+if ! [ $(git config --global user.email) ]; then
+    git config --global user.email "you@example.com"
+fi
+if ! [ $(git config --global user.name) ]; then
+    git config --global user.email "Your Name"
+fi
+
 git clone https://github.com/agroup/python-dib-elements.git
 git clone https://github.com/agroup/undercloud-live.git
 pushd undercloud-live
