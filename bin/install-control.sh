@@ -59,11 +59,19 @@ popd
 git clone https://github.com/openstack/diskimage-builder.git
 pushd diskimage-builder
 git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/30/46230/1 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/21/52321/3 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/49/52349/3 && git cherry-pick -x FETCH_HEAD
+git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/38/52538/1 && git cherry-pick -x FETCH_HEAD
 popd
 
 git clone https://github.com/agroup/tripleo-puppet-elements
 
 git clone https://github.com/openstack/tripleo-heat-templates.git
+pushd tripleo-heat-templates
+# Sept 18 commit "Add functional tests and examples for merge"
+git reset --hard 0dbf2810a0ee78658c35e61dc447c5f968226cb9
+popd
 
 sudo pip install -e python-dib-elements
 sudo pip install -e diskimage-builder
