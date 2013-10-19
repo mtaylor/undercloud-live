@@ -162,6 +162,11 @@ Each step below (where applicable) is prefaced with what system to run it on.
  * CONTROL - undercloud control node
  * LEAF - undercloud leaf node
 
+Commands on the Host can be run as your normal user.
+
+Commands on the Control and Leaf nodes should be run as the stack user unless
+specified otherwise.
+
 1. [HOST] Define and use a $TRIPLEO_ROOT directory
 
         mkdir tripleo
