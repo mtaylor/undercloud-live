@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eux
+
+# Not yet sure why, but these lines are required in the config file for neutron
+# ovs plugin.
+cat >>/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini<<EOQ
+
+[SECURITYGROUP]
+firewall_driver=neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+EOQ
