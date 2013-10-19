@@ -279,7 +279,8 @@ specified otherwise.
 
 1. [CONTROL] Deploy an Overcloud.  If you're deploying the Overcloud to
    baremetal, first edit deploy-overcloud.sh and update $OVERCLOUD_LIBVIRT_TYPE
-   to "kvm" instead.
+   to "kvm" instead.  This script writes out the tripleo-overcloud-passwords
+   file, so I suggest running it from the stack user's home dir.
 
         /opt/stack/undercloud-live/bin/deploy-overcloud.sh
 
