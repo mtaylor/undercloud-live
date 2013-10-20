@@ -264,8 +264,9 @@ specified otherwise.
         sudo undercloud-metadata
 
 1. Copy over images, or build them on the control node for the deploy kernel
-   and overcloud images.  You will need the following images to exist on the
-   control node.
+   and overcloud images.  If you don't provide the images, the next step will
+   attempt to create them for you.  You will need the following images to exist
+   on the control node.  
 
         /opt/stack/images/overcloud-control.qcow2
         /opt/stack/images/overcloud-compute.qcow2
