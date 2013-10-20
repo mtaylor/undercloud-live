@@ -242,14 +242,24 @@ specified otherwise.
 
 1. [CONTROL] Edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  Rememver to set
-   $UNDERCLOUD_MACS based on the output from when nodes.sh was run earlier.  Then run undercloud-metadata
+   $UNDERCLOUD_MACS based on the output from when nodes.sh was run earlier.  
+   Refer to
+   https://github.com/agroup/undercloud-live/blob/slagle/package/elements/undercloud-environment/install.d/02-undercloud-metdata
+   for documentation of the environment variables (documentation was added to
+   the file directly in a later commit).
+   Once edited,  run undercloud-metadata
    on the control node to refresh the configuration.
 
         sudo undercloud-metadata
 
 1. [LEAF] Edit /etc/sysconfig/undercloud-live-config and set all
-   the defined environment variables in the file.  Then run undercloud-metadata
-   on the leaf node to refresh the configuration.
+   the defined environment variables in the file.  
+   Refer to
+   https://github.com/agroup/undercloud-live/blob/slagle/package/elements/undercloud-environment/install.d/02-undercloud-metdata
+   for documentation of the environment variables (documentation was added to
+   the file directly in a later commit).
+   Once edited,  run undercloud-metadata
+   on the control node to refresh the configuration.
 
         sudo undercloud-metadata
 
