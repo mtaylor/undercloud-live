@@ -252,6 +252,10 @@ specified otherwise.
 
         sudo undercloud-metadata
 
+   Use the command in the output from undercloud-metadata to watch/tail the log
+   of os-collect-config.  Make sure it runs successfully once.  You'll be able
+   to tell when you see "Completed phase post-configure" in the log.
+
 1. [LEAF] Edit /etc/sysconfig/undercloud-live-config and set all
    the defined environment variables in the file.  
    Refer to
@@ -262,6 +266,10 @@ specified otherwise.
    on the control node to refresh the configuration.
 
         sudo undercloud-metadata
+
+   Use the command in the output from undercloud-metadata to watch/tail the log
+   of os-collect-config.  Make sure it runs successfully once.  You'll be able
+   to tell when you see "Completed phase post-configure" in the log.
 
 1. Copy over images, or build them on the control node for the deploy kernel
    and overcloud images.  If you don't provide the images, the next step will
