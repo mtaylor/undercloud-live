@@ -128,7 +128,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -x yum \
     -i
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
-    -e source-repositories nova-baremetal bm-dnsmasq neutron-network-node \
+    -e source-repositories nova-baremetal bm-dnsmasq neutron-openvswitch-agent \
     -k extra-data \
     -x yum $EXCLUDE_ELEMENTS \
     -i
@@ -136,7 +136,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
-    -e nova-baremetal bm-dnsmasq neutron-network-node \
+    -e nova-baremetal bm-dnsmasq neutron-openvswitch-agent \
        stackuser heat-cfntools \
        undercloud-leaf-config undercloud-environment \
        selinux-permissive \
