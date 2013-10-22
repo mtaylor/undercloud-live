@@ -12,12 +12,16 @@ wait_for(){
     i=0
     while [ $i -lt $LOOPS ] ; do
         i=$((i + 1))
-        eval "$@" && return 0 || true
+        $@
+        rc=$?
+        if [ $rc ]; then
+            return 0
+        fi
         sleep $SLEEPTIME
     done
     return 1
 }
 
 ssh_noprompt(){
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -o PasswordAuthentication=no $@
+    ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -o PasswordAuthentication=no $@
 }
