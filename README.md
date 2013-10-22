@@ -207,7 +207,9 @@ specified otherwise.
    Review the templates and make any changes you'd like (to increate ram, etc).
    
 1. [HOST] Before starting the vm for the leaf node, edit it's libvirt xml and
-   add the following as an additional network interface.
+   add the following as an additional network interface (this is already added
+   in the templates above, so if you used those, you don't need to do this
+   step).
 
         <interface type='network'>
             <source network='brbm'/>
