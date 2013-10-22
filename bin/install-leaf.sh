@@ -29,6 +29,10 @@ sudo yum install -y which
 # iptables is used instead of firewalld
 sudo yum install -y iptables-services
 
+# Need to install ipmitool manually as it's not pulled in automatically by
+# openstack-nova.  Bug filed: https://bugzilla.redhat.com/show_bug.cgi?id=1022243
+sudo yum -y install ipmitool
+
 # The packaged version of pbr that gets installed is
 # python-pbr-0.5.19-2.fc19.noarch
 # However, the unpackaged os-*-config expect pbr>=0.5.21, so we need to still
