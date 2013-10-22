@@ -55,6 +55,8 @@ popd
 
 git clone https://github.com/openstack/diskimage-builder.git
 pushd diskimage-builder
+git config user.email "undercloud-live@example.com"
+git config user.name "Undercloud Live"
 git checkout 9211a7fecbadc13e8254085133df1e3b53f150d8
 git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/30/46230/1 && git cherry-pick -x FETCH_HEAD
 git fetch https://review.openstack.org/openstack/diskimage-builder refs/changes/21/52321/3 && git cherry-pick -x FETCH_HEAD
@@ -115,6 +117,9 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -i
 
 popd
+
+# need to move this somewhere in heat package or puppet module
+sudo chown heat.heat /var/log/heat/engine.log
 
 # the current user needs to always connect to the system's libvirt instance
 # when virsh is run

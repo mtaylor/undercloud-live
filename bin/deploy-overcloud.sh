@@ -5,6 +5,9 @@ set -eux
 source /etc/sysconfig/undercloudrc
 source /etc/sysconfig/undercloud-live-config
 
+# Make sure we have the latest $PATH set.
+source /etc/profile.d/tripleo-incubator-scripts.sh
+
 /opt/stack/tripleo-incubator/scripts/setup-overcloud-passwords -o
 source tripleo-overcloud-passwords
 
