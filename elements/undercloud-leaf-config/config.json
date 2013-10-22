@@ -37,7 +37,7 @@
     "metadata-proxy": "false",
     "service-password": "unset",
     "compute_driver": "baremetal.driver.BareMetalDriver",
-    "compute_hostname": "undercloud-leaf",
+    "compute_hostname": "LEAF_SERVICE_HOST",
     "quantum_admin_auth_url":"http://CONTROL_IP:35357/v2.0"
   },
   "bootstack": {
